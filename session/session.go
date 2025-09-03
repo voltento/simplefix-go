@@ -188,6 +188,7 @@ func newSession(opts *Opts, handler Handler, settings *LogonSettings, cs Counter
 	}
 
 	session.setStorageCallbacks()
+	session.setValidationCallbacks()
 
 	if opts.Location != "" {
 		session.timeLocation, err = time.LoadLocation(opts.Location)
@@ -237,6 +238,26 @@ func (s *Session) checkLogonParams(incoming messages.LogonBuilder) (ok bool, tag
 	}
 
 	return true, 0, 0
+}
+
+func (s *Session) setValidationCallbacks() {
+	s.Router.HandleIncoming(simplefixgo.AllMsgTypes, func(msg []byte) bool {
+		state := s.State()
+
+		// Check if non-Logon message arrives in invalid state
+		msgType, err := fix.ValueByTag(msg, strconv.Itoa(s.Tags.MsgType))
+		if err != nil {
+			return false
+		}
+		msgTypeStr := string(msgType)
+		// If message is not Logon and state is not in allowed states, disconnect
+		if msgTypeStr != s.MessageBuilders.LogonBuilder.MsgType() &&
+			state != SuccessfulLogged && state != WaitingLogoutAnswer && state != WaitingTestReqAnswer {
+			return false
+		}
+
+		return true
+	})
 }
 
 func (s *Session) setStorageCallbacks() {

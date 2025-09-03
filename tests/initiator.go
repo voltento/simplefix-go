@@ -16,7 +16,7 @@ import (
 	fixgen "github.com/b2broker/simplefix-go/tests/fix44"
 )
 
-func RunNewInitiator(addr string, t *testing.T, settings *session.LogonSettings) (s *session.Session, handler *simplefixgo.DefaultHandler) {
+func RunNewInitiator(addr string, t *testing.T, settings *session.LogonSettings, logon bool) (s *session.Session, handler *simplefixgo.DefaultHandler) {
 	conn, err := net.Dial("tcp", addr)
 	if err != nil {
 		t.Fatalf("could not dial: %s", err)
@@ -51,6 +51,11 @@ func RunNewInitiator(addr string, t *testing.T, settings *session.LogonSettings)
 		fmt.Println("outgoing:", string(bytes.ReplaceAll(data, fix.Delimiter, []byte("|"))))
 		return true
 	})
+	if !logon {
+		handler.HandleOutgoing(fixgen.MsgTypeLogon, func(msg simplefixgo.SendingMessage) bool {
+			return false
+		})
+	}
 
 	// todo move
 	go func() {

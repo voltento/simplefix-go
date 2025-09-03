@@ -81,12 +81,14 @@ func NewIncomingHandlerPool() IncomingHandlerPool {
 }
 
 // Range is used for traversal through handlers. The traversal stops if any handler returns false.
-func (p IncomingHandlerPool) Range(msgType string, f func(IncomingHandlerFunc) bool) {
+func (p IncomingHandlerPool) Range(msgType string, f func(IncomingHandlerFunc) bool) (res bool) {
 	for _, handle := range p.handlersByMsgType(msgType) {
 		if !f(handle.(IncomingHandlerFunc)) {
-			break
+			return false
 		}
 	}
+
+	return true
 }
 
 // Add is used to add a new message handler for the specified message type.

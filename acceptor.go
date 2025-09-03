@@ -57,6 +57,7 @@ type Acceptor struct {
 	size            int
 	handleNewClient func(handler AcceptorHandler)
 	writeTimeout    time.Duration
+	errorHandler    func(error)
 
 	ctx    context.Context
 	cancel context.CancelFunc
@@ -74,6 +75,11 @@ func NewAcceptor(listener net.Listener, factory HandlerFactory, writeTimeout tim
 	s.ctx, s.cancel = context.WithCancel(context.Background())
 
 	return s
+}
+
+// OnError is called when the connection is broken.
+func (s *Acceptor) OnError(handler func(error)) {
+	s.errorHandler = handler
 }
 
 // Close is called to cancel the Acceptor context and close a connection.
@@ -192,5 +198,8 @@ func (s *Acceptor) serve(parentCtx context.Context, netConn net.Conn) {
 		}
 	})
 
-	_ = eg.Wait()
+	err := eg.Wait()
+	if s.errorHandler != nil && err != nil {
+		s.errorHandler(err)
+	}
 }

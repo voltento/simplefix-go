@@ -209,13 +209,19 @@ func (h *DefaultHandler) serve(msg []byte) (err error) {
 	}
 	msgType := string(msgTypeB)
 
-	h.incomingHandlers.Range(AllMsgTypes, func(handle IncomingHandlerFunc) bool {
+	ok := h.incomingHandlers.Range(AllMsgTypes, func(handle IncomingHandlerFunc) bool {
 		return handle(msg)
 	})
+	if !ok {
+		return fmt.Errorf("failed to handle the incoming message, msg: %v", string(msg))
+	}
 
-	h.incomingHandlers.Range(msgType, func(handle IncomingHandlerFunc) bool {
+	ok = h.incomingHandlers.Range(msgType, func(handle IncomingHandlerFunc) bool {
 		return handle(msg)
 	})
+	if !ok {
+		return fmt.Errorf("failed to handle the incoming message by tag, msg: %v", string(msg))
+	}
 
 	return nil
 }
@@ -234,6 +240,7 @@ func (h *DefaultHandler) Run() (err error) {
 
 			err = h.serve(msg)
 			if err != nil {
+				h.eventHandlers.Trigger(utils.EventDisconnect)
 				return err
 			}
 

@@ -44,7 +44,7 @@ func TestHeartbeat(t *testing.T) {
 		SenderCompID:  "Client",
 		HeartBtInt:    heartBtInt,
 		EncryptMethod: fixgen.EnumEncryptMethodNoneother,
-	})
+	}, true)
 
 	waitHeartbeats := utils.TimedWaitGroup{}
 	waitHeartbeats.Add(countOfHeartbeats)
@@ -67,6 +67,51 @@ func TestHeartbeat(t *testing.T) {
 	err := waitHeartbeats.WaitWithTimeout(time.Second * countOfHeartbeats * heartBtInt * 2)
 	if err != nil {
 		t.Fatalf("awaiting heartbeats: %s", err)
+	}
+}
+
+func TestSendWithoutLogon(t *testing.T) {
+	const (
+		heartBtInt = 5
+		testReqID  = "aloha"
+	)
+
+	// Close the Acceptor after its work is accomplished:
+	acceptor, addr := RunAcceptor(0, t)
+	defer acceptor.Close()
+	go func() {
+		err := acceptor.ListenAndServe()
+		if err != nil && !errors.Is(err, simplefixgo.ErrConnClosed) {
+			panic(err)
+		}
+	}()
+
+	initiatorSession, initiatorHandler := RunNewInitiator(addr, t, &session.LogonSettings{
+		TargetCompID:  "Server",
+		SenderCompID:  "Client",
+		HeartBtInt:    heartBtInt,
+		EncryptMethod: fixgen.EnumEncryptMethodNoneother,
+	}, false)
+
+	testRequestMsg := fixgen.TestRequest{}.New()
+	testRequestMsg.SetFieldTestReqID(testReqID)
+
+	err := initiatorSession.Send(testRequestMsg)
+	if err != nil {
+		panic(err)
+	}
+
+	waitClientClosed := make(chan struct{})
+	initiatorHandler.OnDisconnect(func() bool {
+		t.Log("client is disconnected")
+		waitClientClosed <- struct{}{}
+		return true
+	})
+
+	select {
+	case <-waitClientClosed:
+	case <-time.After(time.Second * 3):
+		t.Fatalf("awaiting closing for too long")
 	}
 }
 
@@ -151,7 +196,7 @@ func TestGroup(t *testing.T) {
 		SenderCompID:  "Client",
 		HeartBtInt:    heartBtInt,
 		EncryptMethod: fixgen.EnumEncryptMethodNoneother,
-	})
+	}, true)
 
 	initiatorSession.OnChangeState(utils.EventLogon, func() bool {
 		relatedSymbols := fixgen.NewRelatedSymGrp()
@@ -207,7 +252,7 @@ func TestTestRequest(t *testing.T) {
 		SenderCompID:  "Client",
 		HeartBtInt:    heartBtInt,
 		EncryptMethod: fixgen.EnumEncryptMethodNoneother,
-	})
+	}, true)
 
 	waitHeartbeats := utils.TimedWaitGroup{}
 	waitHeartbeats.Add(1)
@@ -272,7 +317,7 @@ func TestResendSequence(t *testing.T) {
 		SenderCompID:  "Client",
 		HeartBtInt:    1,
 		EncryptMethod: fixgen.EnumEncryptMethodNoneother,
-	})
+	}, true)
 
 	waitRepeats := utils.TimedWaitGroup{}
 	waitRepeats.Add(countOfResending)
@@ -754,7 +799,7 @@ func TestSequenceNumHighload(t *testing.T) {
 		SenderCompID:  "Client",
 		HeartBtInt:    heartBtInt,
 		EncryptMethod: fixgen.EnumEncryptMethodNoneother,
-	})
+	}, true)
 
 	waitSnapshots := utils.TimedWaitGroup{}
 	waitSnapshots.Add(triesNum * threadsNum)
@@ -845,7 +890,7 @@ func TestSessionClosing(t *testing.T) {
 		SenderCompID:  "Client",
 		HeartBtInt:    heartBtInt,
 		EncryptMethod: fixgen.EnumEncryptMethodNoneother,
-	})
+	}, true)
 
 	triesNum := 5
 
