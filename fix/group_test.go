@@ -40,6 +40,88 @@ func newHeader(msgSeqNumV int, senderCompIDV, targetCompIDV string, sendingTimeV
 	)
 }
 
+func TestGroup_IsEmpty(t *testing.T) {
+	g := NewGroup(noRelatedSym, NewKeyValue(symbol, &String{}))
+
+	if !g.IsEmpty() {
+		t.Fatal("group with no entries should be empty")
+	}
+
+	g.AddEntry(Items{NewKeyValue(symbol, NewString("BTC/USD"))})
+
+	if g.IsEmpty() {
+		t.Fatal("group with entries should not be empty")
+	}
+}
+
+func TestGroup_EmptyGroupInMessageBody(t *testing.T) {
+	// An empty group in the message body must not produce a double SOH
+	// delimiter in the serialized output. Covers both ToBytes and WriteBytes paths.
+	emptyGroup := NewGroup(noRelatedSym, NewKeyValue(symbol, &String{}))
+
+	msg := NewMessage(beginString, bodyLength, checksum, msgType, "FIX.4.4", "y").
+		SetBody(
+			NewKeyValue(mdReqID, NewString("req1")),
+			NewKeyValue(subscriptionRequestType, NewString("2")),
+			emptyGroup,
+		).
+		SetHeader(newHeader(1, "sender", "target", time.Unix(1612788703, 0).UTC()))
+
+	// ToBytes path
+	resBytes, err := msg.ToBytes()
+	if err != nil {
+		t.Fatalf("could not marshal message: %s", err)
+	}
+	if bytes.Contains(resBytes, []byte{DelimiterChar, DelimiterChar}) {
+		readable := bytes.ReplaceAll(resBytes, []byte{DelimiterChar}, []byte("^"))
+		t.Fatalf("ToBytes: message contains double SOH: %s", readable)
+	}
+
+	// WriteBytes path (used by SendBuffered in production)
+	converter := NewMessageByteConverter(200)
+	resBytes, err = converter.ConvertToBytes(msg)
+	if err != nil {
+		t.Fatalf("could not marshal message via converter: %s", err)
+	}
+	if bytes.Contains(resBytes, []byte{DelimiterChar, DelimiterChar}) {
+		readable := bytes.ReplaceAll(resBytes, []byte{DelimiterChar}, []byte("^"))
+		t.Fatalf("WriteBytes: message contains double SOH: %s", readable)
+	}
+}
+
+func TestGroup_EmptyGroupBetweenFields(t *testing.T) {
+	// Empty group between two populated fields must not disrupt delimiter logic.
+	emptyGroup := NewGroup(noMDEntryTypes, NewKeyValue(mdEntryType, &String{}))
+	populatedGroup := NewGroup(noRelatedSym, NewKeyValue(symbol, &String{}))
+	populatedGroup.AddEntry(Items{NewKeyValue(symbol, NewString("BTC/USD"))})
+
+	msg := NewMessage(beginString, bodyLength, checksum, msgType, "FIX.4.4", "V").
+		SetBody(
+			NewKeyValue(mdReqID, NewString("req1")),
+			emptyGroup,
+			populatedGroup,
+		).
+		SetHeader(newHeader(1, "sender", "target", time.Unix(1612788703, 0).UTC()))
+
+	converter := NewMessageByteConverter(200)
+	resBytes, err := converter.ConvertToBytes(msg)
+	if err != nil {
+		t.Fatalf("could not marshal message: %s", err)
+	}
+	if bytes.Contains(resBytes, []byte{DelimiterChar, DelimiterChar}) {
+		readable := bytes.ReplaceAll(resBytes, []byte{DelimiterChar}, []byte("^"))
+		t.Fatalf("message contains double SOH: %s", readable)
+	}
+
+	// Populated group must still be present
+	if !bytes.Contains(resBytes, []byte("146=1")) {
+		t.Fatal("populated group count tag missing")
+	}
+	if !bytes.Contains(resBytes, []byte("55=BTC/USD")) {
+		t.Fatal("populated group entry missing")
+	}
+}
+
 func TestGroup_AddItem(t *testing.T) {
 	var testMsg = []byte("8=FIX.4.49=23635=A34=149=sender56=target52=20210208-12:51:43.000262=1263=1264=20267=2269=0269=1146=355=BTC/USD864=2865=1868=put865=2868=call55=ETH/USD864=2865=1868=put865=2868=call55=KGB/FBI864=2865=1868=put865=2868=call10=048")
 

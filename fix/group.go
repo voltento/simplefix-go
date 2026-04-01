@@ -63,9 +63,8 @@ func (g *Group) ToBytes() []byte {
 	return joinBody(msg...)
 }
 
-// always have size tag
 func (g *Group) IsEmpty() bool {
-	return false
+	return len(g.items) == 0
 }
 
 func (g *Group) WriteBytes(writer *bytes.Buffer) bool {
