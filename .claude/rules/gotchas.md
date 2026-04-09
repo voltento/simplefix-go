@@ -10,7 +10,7 @@ Session construction requires ALL 8 builders: Header, Trailer, Logon, Logout, Re
 
 ## Tags are string dependencies — mismatches silently break routing
 
-Session requires tag numbers as strings in `messages.Tags` (MsgType="35", MsgSeqNum="34", etc.). A mismatch between actual message tags and the Tags struct silently breaks message routing and sequence tracking. See [session/messages/contstants.go](../../session/messages/contstants.go).
+Session requires tag numbers as integers in `messages.Tags` (MsgType=35, MsgSeqNum=34, etc.). A mismatch between actual message tags and the Tags struct silently breaks message routing and sequence tracking. See [session/messages/contstants.go](../../session/messages/contstants.go) (filename typo is in the source).
 
 ## `AllMsgTypes` constant is the string "ALL"
 

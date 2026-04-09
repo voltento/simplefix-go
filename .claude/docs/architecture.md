@@ -42,7 +42,7 @@ States defined in [session/session.go](../../session/session.go):
 ```
 WaitingLogon → SuccessfulLogged ←→ WaitingTestReqAnswer
      ↓              ↓
-WaitingLogonAnswer  WaitingLogoutAnswer → Disconnect
+WaitingLogonAnswer  WaitingLogoutAnswer → ReceivedLogoutAnswer → Disconnect
 ```
 
 Session validates incoming messages, enforces heartbeat intervals, handles sequence numbering, and manages logon/logout lifecycle. Requires 8 message builders injected via options.
