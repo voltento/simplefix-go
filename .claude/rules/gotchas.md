@@ -18,7 +18,7 @@ Handler subscription uses `"ALL"` as a catch-all. If any FIX message type is lit
 
 ## HandlerPool.Remove() clears entire type list
 
-`Remove()` doesn't remove a single handler by ID — it clears all handlers for that message type when the last one is removed. Handler IDs are for tracking, not lookup. See [handler_func_pool.go](../../handler_func_pool.go).
+`Remove()` ignores the handler ID parameter and only deletes the msgType entry when the handlers list is empty, never actually removing individual handlers. Handler IDs are for tracking, not removal. See [handler_func_pool.go](../../handler_func_pool.go).
 
 ## Generated code is overwritten on regeneration
 
