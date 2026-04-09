@@ -18,7 +18,7 @@ Tests in [tests/acceptor_initiator_test.go](../../tests/acceptor_initiator_test.
 
 ## MockMessage for isolated handler tests
 
-[session/messages/mock_message.go](../../session/messages/mock_message.go) — implements `SendingMessage` with configurable Type, Data, Error fields. Use for handler tests without full message infrastructure.
+[session/messages/mock_message.go](../../session/messages/mock_message.go) — implements `SendingMessage` with configurable Type, Data, Err fields. Use for handler tests without full message infrastructure.
 
 ## Storage: always use memory.NewStorage()
 
