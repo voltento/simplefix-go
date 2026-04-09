@@ -3,7 +3,8 @@
 Pure Go implementation of the FIX (Financial Information eXchange) protocol. Provides building blocks for FIX clients (Initiators) and servers (Acceptors) with session management, message validation, custom FIX dialect support, and code generation from XML schemas.
 
 - **Module:** `github.com/b2broker/simplefix-go`
-- **Go version:** 1.22
+- **Go version:** 1.22 (go.mod minimum); CI tests with Go 1.24
+- **Default branch:** `master`
 - **Dependencies:** `golang.org/x/sync` only
 
 ## Packages
@@ -35,12 +36,13 @@ Pure Go implementation of the FIX (Financial Information eXchange) protocol. Pro
 ## Commands
 
 ```bash
-go test -race ./...                                          # run all tests
-golangci-lint run                                            # lint
-fixgen -o=./fix44 -s=./source/fix44.xml -t=./source/types.xml  # generate FIX types from XML
+go test -race ./...                                                    # run all tests
+go vet ./...                                                           # vet
+golangci-lint run                                                      # lint (uses defaults, no .golangci.yml)
+go run ./cmd/fixgen -o=./fix44 -s=./source/fix44.xml -t=./source/types.xml  # generate FIX types from XML
 ```
 
-No Makefile. CI runs via GitHub Actions ([.github/workflows/go.yml](../.github/workflows/go.yml)).
+No Makefile. CI runs via GitHub Actions ([.github/workflows/go.yml](../.github/workflows/go.yml)): lint → test → semantic-release on master.
 
 ## Key Interfaces
 
