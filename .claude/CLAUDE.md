@@ -55,11 +55,6 @@ No Makefile. CI runs via GitHub Actions ([.github/workflows/go.yml](../.github/w
 | `Value` | Field value serialization contract | [fix/types.go](../fix/types.go) |
 | `HeaderBuilder`, `LogonBuilder`, etc. | Message-specific builders (8 required) | [session/messages/](../session/messages/) |
 
-## Auto-Loaded Rules
-
-- [rules/gotchas.md](rules/gotchas.md) — session builders, framing, handler pool, state races
-- [rules/testing.md](rules/testing.md) — integration test setup, mocking (path-scoped to `*_test.go`)
-
 ## Reference Docs
 
 - [docs/architecture.md](docs/architecture.md) — detailed layer descriptions, state machine, message model
