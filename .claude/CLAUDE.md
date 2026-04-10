@@ -55,7 +55,11 @@ No Makefile. CI runs via GitHub Actions ([.github/workflows/go.yml](../.github/w
 | `Value` | Field value serialization contract | [fix/types.go](../fix/types.go) |
 | `HeaderBuilder`, `LogonBuilder`, etc. | Message-specific builders (8 required) | [session/messages/](../session/messages/) |
 
-## Reference Docs
+## Resources
 
-- [docs/architecture.md](docs/architecture.md) — detailed layer descriptions, state machine, message model
-- [docs/generator.md](docs/generator.md) — fixgen XML schema format, generation pipeline
+**Before starting any task, match it against the "When to read" column and read only the relevant resources.**
+
+| Resource | When to read |
+|----------|-------------|
+| [architecture.md](resources/architecture.md) | Modifying session state machine, message routing, or understanding the layered architecture |
+| [generator.md](resources/generator.md) | Changing fixgen XML schema, modifying code generation pipeline, or adding new FIX message types |
