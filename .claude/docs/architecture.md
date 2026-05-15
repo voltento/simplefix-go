@@ -33,7 +33,7 @@
 - **KeyValue** ([fix/key_value.go](../../fix/key_value.go)) — fundamental Tag=Value pair
 - **Group** ([fix/group.go](../../fix/group.go)) — repeating groups with template and instances
 - **Component** — reusable message components (Header, Trailer, etc.)
-- **Value interface** ([fix/types.go](../../fix/types.go)) — implementations: String, Int, Float, Raw for serialization/deserialization
+- **Value interface** ([fix/types.go](../../fix/types.go)) — implementations: String, Int, Uint, Float, Raw, Time, Bool for serialization/deserialization
 
 ## Session State Machine
 
