@@ -2,7 +2,7 @@ package encoding
 
 import (
 	"bytes"
-	"github.com/b2broker/simplefix-go/fix"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"
 	"testing"
 )
 

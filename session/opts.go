@@ -2,7 +2,7 @@ package session
 
 import (
 	"fmt"
-	"github.com/b2broker/simplefix-go/session/messages"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/session/messages"
 )
 
 type MessageBuilders struct {
