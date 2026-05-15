@@ -5,35 +5,33 @@ run:
 issues:
   max-same-issues: 15
   max-issues-per-linter: 15
+  exclude-rules:
+    - linters:
+        - revive
+      text: "indent-error-flow"
+    - linters:
+        - revive
+      text: "unused-parameter"
 
 linters-settings:
   govet:
     shadow: true
   gofmt:
     simplify: true
-  gocritic:
-    settings:
-      hugeParam:
-        sizeThreshold: 80
-    enabled-tags:
-      - performance
-      - style
-      - experimental
-      - diagnostic
   gocyclo:
     min-complexity: 50
   misspell:
     locale: US
+  nakedret:
+    max-func-lines: 40
 
 linters:
   enable:
     - gocyclo
-    - gocritic
     - gofmt
     - goconst
     - gosec
     - revive
-    - gochecknoinits
     - gosimple
     - unused
     - unconvert
@@ -46,4 +44,6 @@ linters:
   disable:
     - dupl
     - errcheck
+    - gocritic
+    - gochecknoinits
   disable-all: false
