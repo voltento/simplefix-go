@@ -1,0 +1,18 @@
+stages:
+  - test
+  - release
+
+variables:
+  INTEGRATION_TESTS: "false"
+  CI_GO_PRIVATE_TOKEN: $GITLAB_TOKEN
+
+include:
+  - project: 'highload/b2connect/devops/cicd'
+    ref: master
+    file: 'godefault/.tests.yml'
+  - project: 'highload/b2connect/devops/cicd'
+    ref: master
+    file: 'godefault/.release.yml'
+
+coverage:
+  image: registry.gitlab.b2broker.tech/highload/b2connect/libs/docker/dockerfiles/johncena:24.0.9.2

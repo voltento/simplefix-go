@@ -3,32 +3,25 @@ run:
   issues-exit-code: 1
   tests: false
 issues:
-  exclude-rules:
-    # Exclude some linters from running on tests files.
-    - path: .generated.go
-      linters:
-        - revive
   max-same-issues: 15
   max-issues-per-linter: 15
 
 linters-settings:
   govet:
-    check-shadowing: false
+    shadow: true
   gofmt:
     simplify: true
   gocritic:
-    disabled-checks:
-      - paramTypeCombine
     settings:
       hugeParam:
-        sizeThreshold: 80 #default
+        sizeThreshold: 80
     enabled-tags:
       - performance
       - style
       - experimental
       - diagnostic
   gocyclo:
-    max-complexity: 15
+    min-complexity: 50
   misspell:
     locale: US
 
@@ -41,22 +34,15 @@ linters:
     - gosec
     - revive
     - gochecknoinits
-    - megacheck
-    - misspell
+    - gosimple
+    - unused
     - unconvert
     - unparam
-    - depguard
+    - misspell
     - nakedret
     - prealloc
-    - exportloopref
     - govet
     - staticcheck
-    - deadcode
-    - gosimple
-    - ineffassign
-    - structcheck
-    - unused
-    - varcheck
   disable:
     - dupl
     - errcheck
