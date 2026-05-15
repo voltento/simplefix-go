@@ -46,7 +46,9 @@ Initiator entry: WaitingLogonAnswer ↗         ↓
                                     WaitingLogoutAnswer → ReceivedLogoutAnswer → WaitingLogon
 ```
 
-Disconnect: reached on unrecoverable transport or sequence errors.
+Initiator re-login: WaitingLogon immediately transitions to WaitingLogonAnswer (session.go:479).
+
+Disconnect: reached when a TestRequest goes unanswered within the heartbeat interval (session.go:591).
 
 Session validates incoming messages, enforces heartbeat intervals, handles sequence numbering, and manages logon/logout lifecycle. Requires 8 message builders injected via options.
 

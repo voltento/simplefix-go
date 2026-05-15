@@ -27,10 +27,10 @@ Pure Go implementation of the FIX (Financial Information eXchange) protocol. Pro
 **Layered (bottom to top):**
 
 1. **Transport** — `Acceptor` (server), `Initiator` (client), `Conn` (TCP wrapper with FIX framing on `10=` delimiter)
-2. **Handler/Router** — `DefaultHandler` with `HandlerPool` for incoming/outgoing message routing by type
-3. **Message** — `Message` composite (header + body + trailer + checksum), `KeyValue` pairs, `Group` repeating groups
-4. **Encoding** — `DefaultUnmarshaller` for byte→message deserialization with optional strict validation
-5. **Session** — State machine: WaitingLogon → SuccessfulLogged → (heartbeat/test/reject cycle) → Disconnect
+2. **Message** — `Message` composite (header + body + trailer + checksum), `KeyValue` pairs, `Group` repeating groups
+3. **Encoding** — `DefaultUnmarshaller` for byte→message deserialization with optional strict validation
+4. **Handler/Router** — `DefaultHandler` with `HandlerPool` for incoming/outgoing message routing by type
+5. **Session** — State machine: Acceptor starts at WaitingLogon, Initiator at WaitingLogonAnswer → SuccessfulLogged → (heartbeat/test/reject cycle) → Disconnect
 6. **Generator** — `fixgen` CLI reads XML schemas, outputs typed message builders, field constants, enums
 
 ## Commands
@@ -42,7 +42,7 @@ golangci-lint run                                                      # lint (u
 go run ./cmd/fixgen -o=./fix44 -s=./source/fix44.xml -t=./source/types.xml  # generate FIX types from XML
 ```
 
-CI runs via GitLab CI ([.gitlab-ci.yml](../.gitlab-ci.yml)): test → release on master. Dev commands available in [Makefile](../Makefile): `test_unit`, `coverage`, `lint`, `lint_fix`, `gen_check`.
+CI runs via GitLab CI ([.gitlab-ci.yml](../.gitlab-ci.yml)): `test` stage on every push and MR; `release` stage on `master` only. Dev commands available in [Makefile](../Makefile): `test_unit`, `coverage`, `lint`, `lint_fix`, `gen_check`.
 
 ## Key Interfaces
 

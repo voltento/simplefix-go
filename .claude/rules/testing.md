@@ -7,7 +7,7 @@ path_scope: "**/*_test.go"
 ## Integration test helpers
 
 - `RunAcceptor(port, t)` — creates server, starts listening, returns Acceptor + address. See [tests/acceptor.go](../../tests/acceptor.go).
-- `RunNewInitiator(addr, t, settings)` — connects client, performs logon, returns Session + DefaultHandler. See [tests/initiator.go](../../tests/initiator.go).
+- `RunNewInitiator(addr, t, settings, logon)` — connects client; when `logon=true` performs FIX logon handshake, when `logon=false` suppresses it. Returns Session + DefaultHandler. See [tests/initiator.go](../../tests/initiator.go).
 
 ## Full Acceptor/Initiator integration tests
 

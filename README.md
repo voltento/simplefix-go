@@ -10,9 +10,9 @@
 
 - [What is FIX?](#what-is-fix)
 - [Why SimpleFix Go?](#why-simplefix-go)
-- [Installing SimpleFix Go](#installation)
-- [Using the Generator](#generator)
-- [Getting started with SimpleFix Go](#getting-started)
+- [Installing SimpleFix Go](#installing-simplefix-go)
+- [Using the Generator](#using-the-generator)
+- [Getting started with SimpleFix Go](#getting-started-with-simplefix-go)
 - [Customizing messages](#customizing-messages)
 
 </details>
@@ -188,7 +188,7 @@ type CustomLogon struct {
 }
 
 func (cl *CustomLogon) Build() messages.LogonBuilder {
-    l := cl.Build()
+    l := cl.Logon.Build()
     l.SetFieldCounterParty(os.Getenv("COUNTER_PARTY_ID"))
     return l
 }
