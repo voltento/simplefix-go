@@ -2,14 +2,14 @@ package tests
 
 import (
 	"fmt"
-	"github.com/b2broker/simplefix-go/storages/memory"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/storages/memory"
 	"net"
 	"testing"
 	"time"
 
-	simplefixgo "github.com/b2broker/simplefix-go"
-	"github.com/b2broker/simplefix-go/session"
-	fixgen "github.com/b2broker/simplefix-go/tests/fix44"
+	simplefixgo "gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/session"
+	fixgen "gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/tests/fix44"
 )
 
 func RunAcceptor(port int, t *testing.T) (acceptor *simplefixgo.Acceptor, addr string) {

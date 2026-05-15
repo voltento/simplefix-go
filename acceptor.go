@@ -9,7 +9,7 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"github.com/b2broker/simplefix-go/utils"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/utils"
 )
 
 // Sender is an interface implemented by any structure that can issue a SendingMessage.

@@ -6,11 +6,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/b2broker/simplefix-go/storages/memory"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/storages/memory"
 
-	simplefixgo "github.com/b2broker/simplefix-go"
-	"github.com/b2broker/simplefix-go/session/messages"
-	fixgen "github.com/b2broker/simplefix-go/tests/fix44"
+	simplefixgo "gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/session/messages"
+	fixgen "gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/tests/fix44"
 )
 
 var (

@@ -6,8 +6,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/b2broker/simplefix-go/generator"
-	"github.com/b2broker/simplefix-go/utils"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/generator"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/utils"
 )
 
 func main() {

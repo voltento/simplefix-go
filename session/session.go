@@ -10,12 +10,12 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/b2broker/simplefix-go/fix/encoding"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix/encoding"
 
-	simplefixgo "github.com/b2broker/simplefix-go"
-	"github.com/b2broker/simplefix-go/fix"
-	"github.com/b2broker/simplefix-go/session/messages"
-	"github.com/b2broker/simplefix-go/utils"
+	simplefixgo "gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/session/messages"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/utils"
 )
 
 type LogonState int64

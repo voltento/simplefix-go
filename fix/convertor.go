@@ -3,7 +3,7 @@ package fix
 import (
 	"sync"
 
-	"github.com/b2broker/simplefix-go/fix/buffer"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix/buffer"
 )
 
 type MessageByteConverter struct {

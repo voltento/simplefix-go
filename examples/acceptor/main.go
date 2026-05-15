@@ -3,17 +3,17 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"github.com/b2broker/simplefix-go/storages/memory"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/storages/memory"
 	"net"
 	"strconv"
 	"time"
 
-	simplefixgo "github.com/b2broker/simplefix-go"
-	"github.com/b2broker/simplefix-go/fix"
-	"github.com/b2broker/simplefix-go/fix/encoding"
-	"github.com/b2broker/simplefix-go/session"
-	"github.com/b2broker/simplefix-go/session/messages"
-	fixgen "github.com/b2broker/simplefix-go/tests/fix44"
+	simplefixgo "gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix/encoding"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/session"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/session/messages"
+	fixgen "gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/tests/fix44"
 )
 
 func mustConvToInt(s string) int {
