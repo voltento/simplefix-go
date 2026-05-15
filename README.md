@@ -1,9 +1,6 @@
 # Simple Fix
 
-[![Generic badge](https://img.shields.io/github/v/release/b2broker/simplefix-go.svg?style=for-the-badge)](https://gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/releases/latest)
-[![Generic badge](https://goreportcard.com/badge/gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go?style=for-the-badge)](https://goreportcard.com/report/gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go)
-[![Generic badge](https://img.shields.io/github/stars/b2broker/simplefix-go?style=for-the-badge&logo=GitHub)](https://gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/stargazers)
-[![Generic badge](https://img.shields.io/badge/Go->=1.16-blue.svg?style=for-the-badge&logo=go)](https://golang.org/doc/go1.16)
+[![Generic badge](https://img.shields.io/badge/Go->=1.24-blue.svg?style=for-the-badge&logo=go)](https://golang.org/doc/go1.24)
 [![Generic badge](https://img.shields.io/badge/semver-semantic_release-blue.svg?style=for-the-badge&logo=semantic-release)](https://github.com/go-semantic-release/semantic-release)
 
 <details>
@@ -54,7 +51,7 @@ $ go get -u gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go
 2. Install the *Generator* if you want to use your own XML schema providing a custom set of FIX messaging options:
 
 ```sh
-$ cd $GOPATH/src/gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go && go install ./...
+$ go install gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/cmd/fixgen@latest
 ```
 
 ## Using the Generator

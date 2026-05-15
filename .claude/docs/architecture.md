@@ -40,10 +40,13 @@
 States defined in [session/session.go](../../session/session.go):
 
 ```
-WaitingLogon → SuccessfulLogged ←→ WaitingTestReqAnswer
-     ↓              ↓
-WaitingLogonAnswer  WaitingLogoutAnswer → ReceivedLogoutAnswer → Disconnect
+Acceptor entry:  WaitingLogon      ↘
+                                    SuccessfulLogged ←→ WaitingTestReqAnswer
+Initiator entry: WaitingLogonAnswer ↗         ↓
+                                    WaitingLogoutAnswer → ReceivedLogoutAnswer → WaitingLogon
 ```
+
+Disconnect: reached on unrecoverable transport or sequence errors.
 
 Session validates incoming messages, enforces heartbeat intervals, handles sequence numbering, and manages logon/logout lifecycle. Requires 8 message builders injected via options.
 

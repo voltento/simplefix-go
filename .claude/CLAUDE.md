@@ -42,7 +42,7 @@ golangci-lint run                                                      # lint (u
 go run ./cmd/fixgen -o=./fix44 -s=./source/fix44.xml -t=./source/types.xml  # generate FIX types from XML
 ```
 
-No Makefile. CI runs via GitLab CI ([.gitlab-ci.yml](../.gitlab-ci.yml)): lint → test → semantic-release on master.
+CI runs via GitLab CI ([.gitlab-ci.yml](../.gitlab-ci.yml)): test → release on master. Dev commands available in [Makefile](../Makefile): `test_unit`, `coverage`, `lint`, `lint_fix`, `gen_check`.
 
 ## Key Interfaces
 

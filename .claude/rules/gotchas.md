@@ -16,9 +16,9 @@ Session requires tag numbers as integers in `messages.Tags` (MsgType=35, MsgSeqN
 
 Handler subscription uses `"ALL"` as a catch-all. If any FIX message type is literally named "ALL", behavior is undefined. See [handler.go](../../handler.go).
 
-## HandlerPool.Remove() clears entire type list
+## HandlerPool.Remove() is always a no-op for individual handlers
 
-`Remove()` ignores the handler ID parameter and only deletes the msgType entry when the handlers list is empty, never actually removing individual handlers. Handler IDs are for tracking, not removal. See [handler_func_pool.go](../../handler_func_pool.go).
+`Remove()` ignores the handler ID parameter, never removes anything from the internal slice, then calls `free()` which only deletes the msgType entry when the slice is empty — a condition Remove() itself never creates. To stop routing a message type, replace the pool. Handler IDs are for tracking only. See [handler_func_pool.go](../../handler_func_pool.go).
 
 ## Generated code is overwritten on regeneration
 
@@ -28,10 +28,10 @@ Handler subscription uses `"ALL"` as a catch-all. If any FIX message type is lit
 
 Session state uses `atomic.Int64`, but field mutations during state transitions are not atomic with the state change. A reader may see state X with stale field values.
 
-## Message builders are reused — reset state between messages
+## Custom message builders must reset state between messages
 
-If builder state is not reset between messages, old field values from the previous message may leak. Visible in test patterns at [tests/acceptor_initiator_test.go](../../tests/acceptor_initiator_test.go).
+If a custom builder does not reset its state, old field values from the previous call may leak into the next message. fixgen-generated builders are not affected — they call `fix.NewMessage()` fresh on every `Build()`. Only matters when writing custom `MessageBuilder` implementations. See test patterns at [tests/acceptor_initiator_test.go](../../tests/acceptor_initiator_test.go).
 
-## Context cancellation race in DefaultHandler
+## Context cancellation race between Initiator and DefaultHandler
 
-`DefaultHandler` has dual context tracking: its own `ctx` and `handler.Context()`. Simultaneous cancellation of both can cause goroutine leaks. See [initiator.go](../../initiator.go).
+`Initiator` and `DefaultHandler` each hold independent contexts (`Initiator.ctx` vs `DefaultHandler.ctx`). Simultaneous cancellation of both can cause goroutine leaks. See [initiator.go](../../initiator.go).
