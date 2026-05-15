@@ -1,0 +1,49 @@
+run:
+  deadline: 5m
+  issues-exit-code: 1
+  tests: false
+issues:
+  max-same-issues: 15
+  max-issues-per-linter: 15
+  exclude-rules:
+    - linters:
+        - revive
+      text: "indent-error-flow"
+    - linters:
+        - revive
+      text: "unused-parameter"
+
+linters-settings:
+  govet:
+    shadow: true
+  gofmt:
+    simplify: true
+  gocyclo:
+    min-complexity: 50
+  misspell:
+    locale: US
+  nakedret:
+    max-func-lines: 40
+
+linters:
+  enable:
+    - gocyclo
+    - gofmt
+    - goconst
+    - gosec
+    - revive
+    - gosimple
+    - unused
+    - unconvert
+    - unparam
+    - misspell
+    - nakedret
+    - prealloc
+    - govet
+    - staticcheck
+  disable:
+    - dupl
+    - errcheck
+    - gocritic
+    - gochecknoinits
+  disable-all: false
