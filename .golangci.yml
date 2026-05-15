@@ -19,7 +19,7 @@ linters-settings:
   gofmt:
     simplify: true
   gocyclo:
-    min-complexity: 50
+    min-complexity: 50 # TODO B2CT-19468: legacy migration concession; lower to 30 after refactor
   misspell:
     locale: US
   nakedret:
