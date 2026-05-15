@@ -2,7 +2,7 @@ package generator
 
 import (
 	"fmt"
-	"github.com/b2broker/simplefix-go/utils"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/utils"
 	"os"
 	"testing"
 )

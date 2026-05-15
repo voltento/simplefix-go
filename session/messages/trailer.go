@@ -1,6 +1,6 @@
 package messages
 
-import "github.com/b2broker/simplefix-go/fix"
+import "gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"
 
 // TrailerBuilder is an interface providing functionality to a builder of Trailer messages.
 type TrailerBuilder interface {

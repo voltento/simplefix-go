@@ -3,8 +3,8 @@
 package fix44
 
 import (
-	"github.com/b2broker/simplefix-go/fix"
-	"github.com/b2broker/simplefix-go/session/messages"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/session/messages"
 )
 
 const MsgTypeLogon = "A"

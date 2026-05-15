@@ -1,8 +1,8 @@
 package messages
 
 import (
-	"github.com/b2broker/simplefix-go/fix"
-	"github.com/b2broker/simplefix-go/fix/buffer"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix/buffer"
 )
 
 type Builder interface {
