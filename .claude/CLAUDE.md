@@ -11,7 +11,7 @@ Pure Go implementation of the FIX (Financial Information eXchange) protocol. Pro
 
 | Package | Description | Entry |
 |---------|-------------|-------|
-| root | Transport layer — Acceptor, Initiator, Conn, DefaultHandler | [acceptor.go](../acceptor.go), [initiator.go](../initiator.go) |
+| root | Transport (Acceptor, Initiator, Conn) + Handler/Router (DefaultHandler, HandlerPool) | [acceptor.go](../acceptor.go), [initiator.go](../initiator.go) |
 | `fix` | Message primitives — Message, KeyValue, Group, Component, Value types | [fix/message.go](../fix/message.go) |
 | `fix/encoding` | Message unmarshaling from bytes with optional validation | [fix/encoding/unmarshaler.go](../fix/encoding/unmarshaler.go) |
 | `fix/buffer` | Message byte buffer management | [fix/buffer/buffer.go](../fix/buffer/buffer.go) |
@@ -30,7 +30,7 @@ Pure Go implementation of the FIX (Financial Information eXchange) protocol. Pro
 2. **Message** — `Message` composite (header + body + trailer + checksum), `KeyValue` pairs, `Group` repeating groups
 3. **Encoding** — `DefaultUnmarshaller` for byte→message deserialization with optional strict validation
 4. **Handler/Router** — `DefaultHandler` with `HandlerPool` for incoming/outgoing message routing by type
-5. **Session** — State machine: Acceptor starts at WaitingLogon, Initiator at WaitingLogonAnswer → SuccessfulLogged → (heartbeat/test/reject cycle) → Disconnect
+5. **Session** — State machine: Acceptor starts at WaitingLogon, Initiator starts at WaitingLogon then immediately advances to WaitingLogonAnswer → SuccessfulLogged → (heartbeat/test/reject cycle) → Disconnect
 6. **Generator** — `fixgen` CLI reads XML schemas, outputs typed message builders, field constants, enums
 
 ## Commands
@@ -48,7 +48,7 @@ CI runs via GitLab CI ([.gitlab-ci.yml](../.gitlab-ci.yml)): `test` stage on eve
 
 | Interface | Purpose | Location |
 |-----------|---------|----------|
-| `SendingMessage` | Any outgoing message (MsgType + Marshal) | [handler.go](../handler.go) |
+| `SendingMessage` | Any outgoing message (MsgType, ToBytes, ToBytesBuffered, HeaderBuilder) | [handler.go](../handler.go) |
 | `Sender` | Send(SendingMessage) error | [acceptor.go](../acceptor.go) |
 | `AcceptorHandler` | Server message handler with lifecycle | [acceptor.go](../acceptor.go) |
 | `InitiatorHandler` | Client message handler | [initiator.go](../initiator.go) |

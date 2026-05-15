@@ -41,12 +41,12 @@ States defined in [session/session.go](../../session/session.go):
 
 ```
 Acceptor entry:  WaitingLogon      ↘
-                                    SuccessfulLogged ←→ WaitingTestReqAnswer
+                                    SuccessfulLogged ←→ WaitingTestReqAnswer → Disconnect
 Initiator entry: WaitingLogonAnswer ↗         ↓
-                                    WaitingLogoutAnswer → ReceivedLogoutAnswer → WaitingLogon
+                                    WaitingLogoutAnswer → ReceivedLogoutAnswer → WaitingLogon (Acceptor) / WaitingLogonAnswer (Initiator, session.go:479)
 ```
 
-Initiator re-login: WaitingLogon immediately transitions to WaitingLogonAnswer (session.go:479).
+Post-logout: Acceptor returns to WaitingLogon; Initiator unconditionally transitions to WaitingLogonAnswer to re-initiate logon (session.go:479).
 
 Disconnect: reached when a TestRequest goes unanswered within the heartbeat interval (session.go:591).
 

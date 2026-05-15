@@ -18,7 +18,7 @@ Handler subscription uses `"ALL"` as a catch-all. If any FIX message type is lit
 
 ## HandlerPool.Remove() is always a no-op for individual handlers
 
-`Remove()` ignores the handler ID parameter, never removes anything from the internal slice, then calls `free()` which only deletes the msgType entry when the slice is empty — a condition Remove() itself never creates. To stop routing a message type, replace the pool. Handler IDs are for tracking only. See [handler_func_pool.go](../../handler_func_pool.go).
+`Remove()` ignores the handler ID parameter, never removes anything from the internal slice, then calls `free()` which only deletes the msgType entry when the slice is empty — a condition `Remove()` itself never creates. Additionally, `Remove()` does not hold the pool mutex (`p.mu`) — concurrent calls alongside `Add()` or `Range()` are an unsynchronised data race. To stop routing a message type, replace the pool. Handler IDs are for tracking only. See [handler_func_pool.go](../../handler_func_pool.go).
 
 ## Generated code is overwritten on regeneration
 

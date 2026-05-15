@@ -68,7 +68,7 @@ The following code generates a FIX library based on an [XML schema](https://gitl
 fixgen -o=./fix44 -s=./source/fix44.xml -t=./source/types.xml
 ```
 
-After executing this command, the generated library code will be located in the [./fix44](https://gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/tree/master/tests/fix44) directory.
+After executing this command, the generated library code will be located in the [./fix44](https://gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/tree/master/tests/fix44) directory. The repo's own reference output uses `-o=./tests/fix44`.
 
 ### Specifying Generator parameters
 
@@ -133,13 +133,13 @@ var sessionOpts = session.Opts{
 
 The *Initiator* is a FIX API client that connects to an existing server.
 
-The default *Initiator* implementation can be found in the [./initiator/main.go](https://gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/blob/master/examples/initiator/main.go) file.
+The default *Initiator* implementation can be found in the [./examples/initiator/main.go](https://gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/blob/master/examples/initiator/main.go) file.
 
 ### Starting as a server
 
 The *Acceptor* is a listener that accepts and handles client connection requests. According to the FIX protocol, the *Acceptor* can be both a provider and receiver of data, meaning that it can send requests to the clients as well as read data streams received from them.
 
-The default *Acceptor* implementation can be found in the [./acceptor/main.go](https://gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/blob/master/examples/acceptor/main.go) file.
+The default *Acceptor* implementation can be found in the [./examples/acceptor/main.go](https://gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/blob/master/examples/acceptor/main.go) file.
 
 
 ## Customizing messages
@@ -188,8 +188,8 @@ type CustomLogon struct {
 }
 
 func (cl *CustomLogon) Build() messages.LogonBuilder {
-    l := cl.Logon.Build()
-    l.SetFieldCounterParty(os.Getenv("COUNTER_PARTY_ID"))
+    l := cl.Logon.Build().(*fixgen.Logon)
+    l.SetFieldCounterPartyID(os.Getenv("COUNTER_PARTY_ID"))
     return l
 }
 ```
