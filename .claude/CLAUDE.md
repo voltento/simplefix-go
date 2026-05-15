@@ -30,7 +30,7 @@ Pure Go implementation of the FIX (Financial Information eXchange) protocol. Pro
 2. **Message** — `Message` composite (header + body + trailer + checksum), `KeyValue` pairs, `Group` repeating groups
 3. **Encoding** — `DefaultUnmarshaller` for byte→message deserialization with optional strict validation
 4. **Handler/Router** — `DefaultHandler` with `HandlerPool` for incoming/outgoing message routing by type
-5. **Session** — State machine: Acceptor starts at WaitingLogon, Initiator starts at WaitingLogon then immediately advances to WaitingLogonAnswer → SuccessfulLogged → (heartbeat/test/reject cycle) → Disconnect
+5. **Session** — State machine: Acceptor starts at WaitingLogon, Initiator starts at WaitingLogonAnswer → SuccessfulLogged → (heartbeat/test/reject cycle) → Disconnect
 6. **Generator** — `fixgen` CLI reads XML schemas, outputs typed message builders, field constants, enums
 
 ## Commands
