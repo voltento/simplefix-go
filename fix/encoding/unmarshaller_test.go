@@ -2,8 +2,10 @@ package encoding
 
 import (
 	"bytes"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"
+	"strconv"
 	"testing"
+
+	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"
 )
 
 const visibleDelimiter = "|"
@@ -157,5 +159,71 @@ func TestUnmarshalItems_EmptyRepeatingGroup(t *testing.T) {
 	}
 	if !group.IsEmpty() {
 		t.Fatalf("expected empty group, got %d entries", len(group.Entries()))
+	}
+}
+
+// TestUnmarshal_EmptyRepeatingGroupFullMessage exercises the full strict
+// Unmarshal path (BodyLength + CheckSum validation) for a message whose
+// repeating group is empty (146=0), as a counterparty message would arrive.
+func TestUnmarshal_EmptyRepeatingGroupFullMessage(t *testing.T) {
+	body := "35=y\x0149=Sender\x0156=Target\x0134=1\x01146=0\x01"
+	head := "8=FIX.4.4\x019=" + strconv.Itoa(len(body)) + "\x01"
+	pre := head + body
+	sum := fix.CalcCheckSumOptimized([]byte(pre[:len(pre)-1]))
+	raw := []byte(pre + "10=" + string(sum) + "\x01")
+
+	group := fix.NewGroup("146", &fix.KeyValue{Key: "55", Value: &fix.String{}})
+	msg := fix.NewMessage("8", "9", "10", "35", "FIX.4.4", "y")
+	msg.SetHeader(fix.NewComponent())
+	msg.SetTrailer(fix.NewComponent())
+	msg.SetBody(
+		&fix.KeyValue{Key: "49", Value: &fix.String{}},
+		&fix.KeyValue{Key: "56", Value: &fix.String{}},
+		&fix.KeyValue{Key: "34", Value: &fix.String{}},
+		group,
+	)
+
+	if err := Unmarshal(msg, raw); err != nil {
+		t.Fatalf("Unmarshal failed for empty group: %v", err)
+	}
+	if !group.IsEmpty() {
+		t.Fatalf("expected empty group, got %d entries", len(group.Entries()))
+	}
+}
+
+// TestUnmarshal_ValidationErrors covers the strict validateRaw rejection paths.
+func TestUnmarshal_ValidationErrors(t *testing.T) {
+	body := "35=y\x0149=Sender\x0156=Target\x0134=1\x01146=0\x01"
+	head := "8=FIX.4.4\x019=" + strconv.Itoa(len(body)) + "\x01"
+	pre := head + body
+	validSum := string(fix.CalcCheckSumOptimized([]byte(pre[:len(pre)-1])))
+
+	newMsg := func() *fix.Message {
+		m := fix.NewMessage("8", "9", "10", "35", "FIX.4.4", "y")
+		m.SetHeader(fix.NewComponent())
+		m.SetTrailer(fix.NewComponent())
+		m.SetBody(
+			&fix.KeyValue{Key: "49", Value: &fix.String{}},
+			&fix.KeyValue{Key: "56", Value: &fix.String{}},
+			fix.NewGroup("146", &fix.KeyValue{Key: "55", Value: &fix.String{}}),
+		)
+		return m
+	}
+
+	tests := []struct {
+		name string
+		raw  []byte
+	}{
+		{"checksum mismatch", []byte(pre + "10=000\x01")},
+		{"body length mismatch", []byte("8=FIX.4.4\x019=" + strconv.Itoa(len(body)+7) + "\x01" + body + "10=" + validSum + "\x01")},
+		{"non-numeric body length", []byte("8=FIX.4.4\x019=abc\x0135=y\x0156=Server\x0110=000\x01")},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			if err := Unmarshal(newMsg(), tc.raw); err == nil {
+				t.Fatalf("expected error for %q, got nil", tc.name)
+			}
+		})
 	}
 }
