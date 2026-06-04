@@ -135,3 +135,27 @@ func TestUnmarshalItems(t *testing.T) {
 func showDelimiter(in []byte) []byte {
 	return bytes.ReplaceAll(in, fix.Delimiter, []byte(visibleDelimiter))
 }
+
+// TestUnmarshalItems_EmptyRepeatingGroup: a zero-count group (146=0) must parse
+// as empty, not fail "wrong items count: 0 != 1".
+func TestUnmarshalItems_EmptyRepeatingGroup(t *testing.T) {
+	// BodyLength/CheckSum aren't validated by unmarshalItems.
+	raw := []byte("8=FIX.4.4\x019=22\x0135=y\x0156=Server\x01146=0\x0110=000\x01")
+
+	group := fix.NewGroup("146", &fix.KeyValue{Key: "55", Value: &fix.String{}})
+	items := fix.Items{
+		&fix.KeyValue{Key: "8", Value: &fix.String{}},
+		&fix.KeyValue{Key: "9", Value: &fix.String{}},
+		&fix.KeyValue{Key: "35", Value: &fix.String{}},
+		&fix.KeyValue{Key: "56", Value: &fix.String{}},
+		group,
+		&fix.KeyValue{Key: "10", Value: &fix.String{}},
+	}
+
+	if err := unmarshalItems(items, raw, true); err != nil {
+		t.Fatalf("unmarshalItems returned error for empty group: %v", err)
+	}
+	if !group.IsEmpty() {
+		t.Fatalf("expected empty group, got %d entries", len(group.Entries()))
+	}
+}
