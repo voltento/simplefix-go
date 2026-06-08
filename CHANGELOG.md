@@ -1,3 +1,15 @@
+## [1.18.1](https://gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/compare/v1.18.0...v1.18.1) (2026-06-08)
+
+
+### Bug Fixes
+
+* accept zero-count repeating groups in unmarshaler (B2CT-18604) ([3690472](https://gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/commit/3690472d3794d6a4ff421608be1d02a908f875db))
+
+
+### Documentation
+
+* fix default branch to master in CLAUDE.md (B2CT-18604) ([18b6f70](https://gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/commit/18b6f701430c641509959467fd697f91e4695551))
+
 ## [1.18.0](https://gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/compare/v1.17.3...v1.18.0) (2026-05-15)
 
 
