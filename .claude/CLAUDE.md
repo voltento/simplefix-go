@@ -4,7 +4,7 @@ Pure Go implementation of the FIX (Financial Information eXchange) protocol. Pro
 
 - **Module:** `gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go`
 - **Go version:** 1.24 (go.mod minimum); CI tests with Go 1.24
-- **Default branch:** `develop`
+- **Default branch:** `master`
 - **Dependencies:** `golang.org/x/sync` only
 
 ## Packages

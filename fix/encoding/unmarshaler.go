@@ -136,6 +136,11 @@ func (s *state) unmarshal(data []byte, fixItem fix.Item) error {
 		}
 
 		cnt := noKv.Value.Value().(int)
+		// A zero count (e.g. NoRelatedSym=0) is a valid empty group.
+		if cnt == 0 {
+			return nil
+		}
+
 		startNoTag := bytes.Index(data, append([]byte(noKv.Key), '='))
 		if startNoTag == -1 {
 			return nil
