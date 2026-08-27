@@ -6,10 +6,10 @@ variables:
   INTEGRATION_TESTS: "false"
 
 include:
-  - project: 'highload/b2connect/devops/cicd'
+  - project: 'b2connect/b2connect/devops/cicd'
     ref: master
     file: 'godefault/.tests.yml'
-  - project: 'highload/b2connect/devops/cicd'
+  - project: 'b2connect/b2connect/devops/cicd'
     ref: master
     file: 'godefault/.release.yml'
 
