@@ -29,11 +29,11 @@ coverage:
 
 .PHONY: lint
 lint:
-	$(GOUTIL) golangci-lint run --config .golangci.yml -v ./...
+	$(GOUTIL) sh -c 'go mod download && golangci-lint run --config .golangci.yml -v ./...'
 
 .PHONY: lint_fix
 lint_fix:
-	$(GOUTIL) golangci-lint run --config .golangci.yml -v --fix ./...
+	$(GOUTIL) sh -c 'go mod download && golangci-lint run --config .golangci.yml -v --fix ./...'
 
 .PHONY: gen_check
 gen_check:
