@@ -2,7 +2,7 @@ GO_TEST_FLAGS=-v -race
 GO_COVERAGE_FILE=coverage.out
 GOUTIL_ENABLED?=YES
 GOUTIL_VERSION=1.24.1.27
-GOUTIL_IMAGE=registry.gitlab.b2broker.tech/highload/b2connect/libs/docker/dockerfiles/goutil
+GOUTIL_IMAGE=registry.gitlab.b2broker.tech/b2connect/b2connect/libs/docker/dockerfiles/goutil
 ifeq ("$(GOUTIL_ENABLED)", "NO")
 GOUTIL=
 else

@@ -1,8 +1,8 @@
 package memory
 
 import (
-	simplefixgo "gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"
+	simplefixgo "gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix"
 	"sync"
 	"sync/atomic"
 )

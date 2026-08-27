@@ -1,8 +1,8 @@
 package session
 
 import (
-	simplefixgo "gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"
+	simplefixgo "gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix"
 )
 
 // MessageStorage is an interface providing a basic method for storing messages awaiting to be sent.

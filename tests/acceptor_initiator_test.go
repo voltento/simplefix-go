@@ -5,7 +5,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/storages/memory"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/storages/memory"
 	"net"
 	"regexp"
 	"strconv"
@@ -14,13 +14,13 @@ import (
 	"testing"
 	"time"
 
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix/encoding"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix/encoding"
 
-	simplefixgo "gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/session"
-	fixgen "gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/tests/fix44"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/utils"
+	simplefixgo "gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/session"
+	fixgen "gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/tests/fix44"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/utils"
 )
 
 func TestHeartbeat(t *testing.T) {

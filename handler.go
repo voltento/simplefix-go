@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"sync"
 
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix/buffer"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/session/messages"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/utils"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix/buffer"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/session/messages"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/utils"
 )
 
 const AllMsgTypes = "ALL"

@@ -1,4 +1,4 @@
-module gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go
+module gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go
 
 go 1.24
 

@@ -78,11 +78,11 @@ func (g *Generator) makeFile(data, pkg string) string {
 
 	if strings.Contains(data, "fix.") {
 		// TODO: move
-		imports = append(imports, `"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"`)
+		imports = append(imports, `"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix"`)
 	}
 	if strings.Contains(data, "messages.") {
 		// TODO: move
-		imports = append(imports, `"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/session/messages"`)
+		imports = append(imports, `"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/session/messages"`)
 	}
 	if strings.Contains(data, "time.") {
 		imports = append(imports, `"time"`)

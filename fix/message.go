@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix/buffer"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix/buffer"
 )
 
 // Message is a structure providing functionality to FIX messages.

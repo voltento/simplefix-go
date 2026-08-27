@@ -5,15 +5,15 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/storages/memory"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/storages/memory"
 	"net"
 	"testing"
 	"time"
 
-	simplefixgo "gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/session"
-	fixgen "gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/tests/fix44"
+	simplefixgo "gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/session"
+	fixgen "gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/tests/fix44"
 )
 
 func RunNewInitiator(addr string, t *testing.T, settings *session.LogonSettings, logon bool) (s *session.Session, handler *simplefixgo.DefaultHandler) {

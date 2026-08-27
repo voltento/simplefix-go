@@ -3,7 +3,7 @@
 package fix44
 
 import (
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix"
 )
 
 type UnderlyingsGrp struct {
