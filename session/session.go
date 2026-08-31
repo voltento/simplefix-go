@@ -203,7 +203,7 @@ func newSession(opts *Opts, handler Handler, settings *LogonSettings, cs Counter
 		session.timeLocation = time.UTC
 	}
 
-	session.ctx, session.cancel = context.WithCancel(handler.Context())
+	session.ctx, session.cancel = context.WithCancel(handler.Context()) //nolint:gosec // cancel is stored on the struct and invoked from Disconnect/Close
 
 	return session, nil
 }
