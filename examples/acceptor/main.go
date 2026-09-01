@@ -1,3 +1,4 @@
+// Package main demonstrates running a FIX Acceptor.
 package main
 
 import (

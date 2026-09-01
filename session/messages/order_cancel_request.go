@@ -1,5 +1,6 @@
 package messages
 
+// OrderCancelRequest is a order cancel request.
 type OrderCancelRequest interface {
 	New() OrderCancelRequestBuilder
 	Build() OrderCancelRequestBuilder

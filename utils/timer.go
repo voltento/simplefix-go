@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// Errors returned by NewTimer for invalid settings.
 var (
 	ErrZeroTimeout       = errors.New("zero timeout")
 	ErrTooSmallFrequency = errors.New("the frequency is too small")
@@ -15,6 +16,7 @@ var (
 const frequency time.Duration = 10
 const minFrequency = time.Microsecond
 
+// Timer is a timer.
 type Timer struct {
 	mu         sync.RWMutex
 	lastUpdate time.Time
@@ -26,6 +28,7 @@ type Timer struct {
 	cancel context.CancelFunc
 }
 
+// NewTimer ...
 func NewTimer(timeout time.Duration) (*Timer, error) {
 	if timeout == 0 {
 		return nil, ErrZeroTimeout
@@ -47,10 +50,12 @@ func NewTimer(timeout time.Duration) (*Timer, error) {
 	}, nil
 }
 
+// Close releases resources held by timer.
 func (t *Timer) Close() {
 	t.cancel()
 }
 
+// Refresh resets timer's timer deadline.
 func (t *Timer) Refresh() {
 	t.mu.Lock()
 	defer t.mu.Unlock()

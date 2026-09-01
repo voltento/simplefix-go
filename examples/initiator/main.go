@@ -1,3 +1,4 @@
+// Package main demonstrates running a FIX Initiator.
 package main
 
 import (

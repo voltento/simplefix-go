@@ -1,5 +1,6 @@
 package messages
 
+// TestRequest is a test request.
 type TestRequest interface {
 	New() TestRequestBuilder
 	Build() TestRequestBuilder

@@ -1,3 +1,4 @@
+// Package simplefixgo implements a pure Go FIX protocol client/server toolkit.
 package simplefixgo
 
 import (

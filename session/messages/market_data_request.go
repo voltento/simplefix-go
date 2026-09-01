@@ -1,5 +1,6 @@
 package messages
 
+// MarketDataRequest is a market data request.
 type MarketDataRequest interface {
 	New() MarketDataRequestBuilder
 	Build() MarketDataRequestBuilder

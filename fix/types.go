@@ -46,26 +46,34 @@ func NewRaw(v []byte) *Raw {
 	}
 }
 
+// ToBytes returns the byte representation of raw.
 func (v *Raw) ToBytes() []byte {
 	return v.value
 }
 
+// WriteBytes writes raw's bytes into buf.
 func (v *Raw) WriteBytes(writer *bytes.Buffer) bool {
 	_, _ = writer.Write(v.value)
 	return true
 }
 
+// FromBytes parses raw from raw bytes.
 func (v *Raw) FromBytes(d []byte) (err error) {
 	v.value = d
 	return nil
 }
 
+// IsNull reports whether raw is null.
 func (v *Raw) IsNull() bool {
 	return v.value == nil
 }
+
+// IsEmpty reports whether raw is empty.
 func (v *Raw) IsEmpty() bool {
 	return v.value == nil
 }
+
+// Value returns raw's underlying value.
 func (v *Raw) Value() interface{} {
 	return v.value
 }
@@ -90,6 +98,7 @@ type String struct {
 	valid bool
 }
 
+// NewString ...
 func NewString(v string) *String {
 	return &String{value: v, valid: true}
 }
@@ -110,12 +119,15 @@ func (v *String) Set(d interface{}) error {
 	return fmt.Errorf("could not convert %s to %s", d, "String")
 }
 
+// ToBytes returns the byte representation of string.
 func (v *String) ToBytes() []byte {
 	if !v.valid || v.value == "" {
 		return nil
 	}
 	return []byte(v.value)
 }
+
+// WriteBytes writes string's bytes into buf.
 func (v *String) WriteBytes(writer *bytes.Buffer) bool {
 	if !v.valid || v.value == "" {
 		return false
@@ -124,16 +136,22 @@ func (v *String) WriteBytes(writer *bytes.Buffer) bool {
 	return true
 }
 
+// IsNull reports whether string is null.
 func (v *String) IsNull() bool {
 	return !v.valid
 }
+
+// IsEmpty reports whether string is empty.
 func (v *String) IsEmpty() bool {
 	return !v.valid || v.value == ""
 }
+
+// Value returns string's underlying value.
 func (v *String) Value() interface{} {
 	return v.value
 }
 
+// FromBytes parses string from raw bytes.
 func (v *String) FromBytes(d []byte) (err error) {
 	if d == nil {
 		v.valid = false
@@ -156,13 +174,17 @@ type Int struct {
 	valid bool
 }
 
+// NewInt ...
 func NewInt(value int) *Int {
 	return &Int{valid: true, value: value}
 }
 
+// IsNull reports whether int is null.
 func (v *Int) IsNull() bool {
 	return !v.valid
 }
+
+// IsEmpty reports whether int is empty.
 func (v *Int) IsEmpty() bool {
 	return !v.valid
 }
@@ -183,6 +205,7 @@ func (v *Int) Set(d interface{}) error {
 	return fmt.Errorf("could not convert %s to %s", d, "Int")
 }
 
+// Value returns int's underlying value.
 func (v *Int) Value() interface{} {
 	return v.value
 }
@@ -190,6 +213,7 @@ func (v *Int) String() string {
 	return strconv.Itoa(v.value)
 }
 
+// FromBytes parses int from raw bytes.
 func (v *Int) FromBytes(d []byte) (err error) {
 	if d == nil {
 		v.valid = false
@@ -202,12 +226,15 @@ func (v *Int) FromBytes(d []byte) (err error) {
 	return err
 }
 
+// ToBytes returns the byte representation of int.
 func (v *Int) ToBytes() []byte {
 	if !v.valid {
 		return nil
 	}
 	return intToBytes(v.value)
 }
+
+// WriteBytes writes int's bytes into buf.
 func (v *Int) WriteBytes(writer *bytes.Buffer) bool {
 	if !v.valid {
 		return false
@@ -222,6 +249,7 @@ type Uint struct {
 	valid bool
 }
 
+// NewUint ...
 func NewUint(value uint64) *Uint {
 	return &Uint{value: value, valid: true}
 }
@@ -242,12 +270,17 @@ func (v *Uint) Set(d interface{}) error {
 	return fmt.Errorf("could not convert %s to %s", d, "Uint")
 }
 
+// IsNull reports whether uint is null.
 func (v *Uint) IsNull() bool {
 	return !v.valid
 }
+
+// IsEmpty reports whether uint is empty.
 func (v *Uint) IsEmpty() bool {
 	return !v.valid
 }
+
+// FromBytes parses uint from raw bytes.
 func (v *Uint) FromBytes(d []byte) (err error) {
 	if d == nil {
 		v.valid = false
@@ -260,6 +293,7 @@ func (v *Uint) FromBytes(d []byte) (err error) {
 	return err
 }
 
+// Value returns uint's underlying value.
 func (v *Uint) Value() interface{} {
 	return v.value
 }
@@ -268,12 +302,15 @@ func (v *Uint) String() string {
 	return fmt.Sprintf("%d", v.value)
 }
 
+// ToBytes returns the byte representation of uint.
 func (v *Uint) ToBytes() []byte {
 	if !v.valid {
 		return nil
 	}
 	return uintToBytes(v.value)
 }
+
+// WriteBytes writes uint's bytes into buf.
 func (v *Uint) WriteBytes(writer *bytes.Buffer) bool {
 	if !v.valid {
 		return false
@@ -289,20 +326,27 @@ type Float struct {
 	valid  bool
 }
 
+// NewFloat ...
 func NewFloat(value float64) *Float {
 	return &Float{value: value, valid: true}
 }
 
+// IsNull reports whether float is null.
 func (v *Float) IsNull() bool {
 	return !v.valid
 }
+
+// IsEmpty reports whether float is empty.
 func (v *Float) IsEmpty() bool {
 	return !v.valid
 }
+
+// Value returns float's underlying value.
 func (v *Float) Value() interface{} {
 	return v.value
 }
 
+// FromBytes parses float from raw bytes.
 func (v *Float) FromBytes(d []byte) (err error) {
 	if d == nil {
 		v.valid = false
@@ -316,6 +360,7 @@ func (v *Float) FromBytes(d []byte) (err error) {
 	return err
 }
 
+// ToBytes returns the byte representation of float.
 func (v *Float) ToBytes() []byte {
 	if !v.valid {
 		return nil
@@ -325,6 +370,8 @@ func (v *Float) ToBytes() []byte {
 	}
 	return floatToBytes(v.value)
 }
+
+// WriteBytes writes float's bytes into buf.
 func (v *Float) WriteBytes(writer *bytes.Buffer) bool {
 	if !v.valid {
 		return false
@@ -363,6 +410,7 @@ type Time struct {
 	valid bool
 }
 
+// NewTime ...
 func NewTime(value time.Time) *Time {
 	return &Time{value: value, valid: true}
 }
@@ -383,23 +431,30 @@ func (v *Time) Set(d interface{}) error {
 	return fmt.Errorf("could not convert %s to %s", d, "Date-Time")
 }
 
+// IsNull reports whether time is null.
 func (v *Time) IsNull() bool {
 	return !v.valid
 }
+
+// IsEmpty reports whether time is empty.
 func (v *Time) IsEmpty() bool {
 	return !v.valid
 }
 
+// Value returns time's underlying value.
 func (v *Time) Value() interface{} {
 	return v.value
 }
 
+// ToBytes returns the byte representation of time.
 func (v *Time) ToBytes() []byte {
 	if !v.valid {
 		return nil
 	}
 	return timeToBytes(v.value)
 }
+
+// WriteBytes writes time's bytes into buf.
 func (v *Time) WriteBytes(writer *bytes.Buffer) bool {
 	if !v.valid {
 		return false
@@ -407,6 +462,8 @@ func (v *Time) WriteBytes(writer *bytes.Buffer) bool {
 	_, _ = writer.Write(timeToBytes(v.value))
 	return true
 }
+
+// FromBytes parses time from raw bytes.
 func (v *Time) FromBytes(d []byte) (err error) {
 	if d == nil {
 		v.valid = false
@@ -423,6 +480,7 @@ func (v *Time) String() string {
 	return v.value.Format(TimeLayout)
 }
 
+// FIX boolean field byte values.
 const (
 	True  = 'Y'
 	False = 'N'
@@ -437,6 +495,7 @@ type Bool struct {
 	valid bool
 }
 
+// ToBytes returns the byte representation of bool.
 func (v *Bool) ToBytes() []byte {
 	if !v.valid {
 		return nil
@@ -447,6 +506,8 @@ func (v *Bool) ToBytes() []byte {
 	}
 	return falseByte
 }
+
+// WriteBytes writes bool's bytes into buf.
 func (v *Bool) WriteBytes(writer *bytes.Buffer) bool {
 	if !v.valid {
 		return false
@@ -460,6 +521,7 @@ func (v *Bool) WriteBytes(writer *bytes.Buffer) bool {
 	return true
 }
 
+// FromBytes parses bool from raw bytes.
 func (v *Bool) FromBytes(d []byte) error {
 	if d == nil {
 		v.valid = false
@@ -472,6 +534,7 @@ func (v *Bool) FromBytes(d []byte) error {
 	return nil
 }
 
+// Value returns bool's underlying value.
 func (v *Bool) Value() interface{} {
 	return v.value
 }
@@ -487,9 +550,12 @@ func (v *Bool) String() string {
 	return string(False)
 }
 
+// IsNull reports whether bool is null.
 func (v *Bool) IsNull() bool {
 	return !v.valid
 }
+
+// IsEmpty reports whether bool is empty.
 func (v *Bool) IsEmpty() bool {
 	return !v.valid
 }
@@ -654,11 +720,11 @@ func bytesToFloat(s []byte) (float64, error) {
 				i++
 				if i-j >= uint(len(float64pow10)) {
 					// The mantissa is out of range. Fall back to standard parsing.
-					f, err := strconv.ParseFloat(string(s), 64)
-					if err != nil && !math.IsInf(f, 0) {
+					pf, err := strconv.ParseFloat(string(s), 64)
+					if err != nil && !math.IsInf(pf, 0) {
 						return 0, errors.New("cannot parse mantissa")
 					}
-					return f, nil
+					return pf, nil
 				}
 				continue
 			}
@@ -700,11 +766,11 @@ func bytesToFloat(s []byte) (float64, error) {
 				if exp > 32 {
 					// The exponent may be too big for float64.
 					// Fall back to standard parsing.
-					f, err := strconv.ParseFloat(string(s), 64)
-					if err != nil && !math.IsInf(f, 0) {
+					pf, err := strconv.ParseFloat(string(s), 64)
+					if err != nil && !math.IsInf(pf, 0) {
 						return 0, errors.New("cannot parse exponent by strconv")
 					}
-					return f, nil
+					return pf, nil
 				}
 				continue
 			}
@@ -736,10 +802,11 @@ func bytesToInt(d []byte) (int, error) {
 	var sign = 1
 	start := 0
 
-	if d[0] == '-' {
+	switch d[0] {
+	case '-':
 		sign = -1
 		start = 1
-	} else if d[0] == '+' {
+	case '+':
 		start = 1
 	}
 

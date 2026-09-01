@@ -4,6 +4,8 @@ stages:
 
 variables:
   INTEGRATION_TESTS: "false"
+  GOTOOLCHAIN: "go1.26.2"
+  GONOSUMDB: "golang.org/toolchain"
 
 include:
   - project: 'b2connect/b2connect/devops/cicd'

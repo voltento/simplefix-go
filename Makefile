@@ -1,7 +1,7 @@
 GO_TEST_FLAGS=-v -race
 GO_COVERAGE_FILE=coverage.out
 GOUTIL_ENABLED?=YES
-GOUTIL_VERSION=1.24.1.27
+GOUTIL_VERSION=1.26.6.0
 GOUTIL_IMAGE=registry.gitlab.b2broker.tech/b2connect/b2connect/libs/docker/dockerfiles/goutil
 ifeq ("$(GOUTIL_ENABLED)", "NO")
 GOUTIL=
@@ -29,11 +29,11 @@ coverage:
 
 .PHONY: lint
 lint:
-	$(GOUTIL) golangci-lint run --config .golangci.yml -v ./...
+	$(GOUTIL) golangci-lint run --config .golangci.yaml -v ./...
 
 .PHONY: lint_fix
 lint_fix:
-	$(GOUTIL) golangci-lint run --config .golangci.yml -v --fix ./...
+	$(GOUTIL) golangci-lint run --config .golangci.yaml -v --fix ./...
 
 .PHONY: gen_check
 gen_check:

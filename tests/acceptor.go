@@ -1,3 +1,4 @@
+// Package tests provides Acceptor/Initiator test helpers.
 package tests
 
 import (
@@ -12,6 +13,7 @@ import (
 	fixgen "gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/tests/fix44"
 )
 
+// RunAcceptor ...
 func RunAcceptor(port int, t *testing.T) (acceptor *simplefixgo.Acceptor, addr string) {
 	listener, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", port))
 	if err != nil {

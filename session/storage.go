@@ -11,6 +11,7 @@ type MessageStorage interface {
 	Messages(storageID fix.StorageID, msgSeqNumFrom, msgSeqNumTo int) ([]simplefixgo.SendingMessage, error)
 }
 
+// CounterStorage is a counter storage.
 type CounterStorage interface {
 	GetNextSeqNum(storageID fix.StorageID) (int, error)
 	GetCurrSeqNum(storageID fix.StorageID) (int, error)

@@ -1,5 +1,6 @@
 package messages
 
+// Reject is a reject.
 type Reject interface {
 	New() RejectBuilder
 	Build() RejectBuilder

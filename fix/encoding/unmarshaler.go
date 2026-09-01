@@ -1,3 +1,4 @@
+// Package encoding decodes raw FIX byte streams into Message values.
 package encoding
 
 import (
@@ -9,19 +10,23 @@ import (
 	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/session/messages"
 )
 
+// Validator is a validator.
 type Validator interface {
 	Do(msg messages.Builder) error
 }
 
+// DefaultUnmarshaller is a default unmarshaller.
 type DefaultUnmarshaller struct {
 	Validator Validator
 	Strict    bool
 }
 
+// NewDefaultUnmarshaller ...
 func NewDefaultUnmarshaller(strict bool) *DefaultUnmarshaller {
 	return &DefaultUnmarshaller{Strict: strict, Validator: DefaultValidator{}}
 }
 
+// Unmarshal decodes data into a Message.
 func (u DefaultUnmarshaller) Unmarshal(msg messages.Builder, d []byte) error {
 	if err := validateRaw(msg, d, u.Strict); err != nil {
 		return err
@@ -35,6 +40,7 @@ func (u DefaultUnmarshaller) Unmarshal(msg messages.Builder, d []byte) error {
 	return u.Validator.Do(msg)
 }
 
+// Unmarshal ...
 func Unmarshal(msg messages.Builder, d []byte) error {
 	u := DefaultUnmarshaller{Strict: true, Validator: DefaultValidator{}}
 

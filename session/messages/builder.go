@@ -1,3 +1,4 @@
+// Package messages defines standard FIX control message builders and interfaces.
 package messages
 
 import (
@@ -5,6 +6,7 @@ import (
 	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix/buffer"
 )
 
+// Builder is a builder.
 type Builder interface {
 	Items() fix.Items
 	CalcBodyLength() int
@@ -20,6 +22,7 @@ type Builder interface {
 	CheckSumTag() string
 }
 
+// PipelineBuilder is a pipeline builder.
 type PipelineBuilder interface {
 	HeaderBuilder() HeaderBuilder
 	Builder

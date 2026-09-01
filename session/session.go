@@ -18,8 +18,10 @@ import (
 	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/utils"
 )
 
+// LogonState is a logon state.
 type LogonState int64
 
+// Errors returned by session construction and validation.
 var (
 	ErrMissingHandler          = errors.New("a handler is missing")
 	ErrMissingRequiredTag      = errors.New("a required tag is missing in the tags list")
@@ -58,17 +60,19 @@ const (
 )
 
 const (
+	// MinLogonTimeout is a min logon timeout.
 	MinLogonTimeout = time.Millisecond
 )
 
 type logonHandler func(request *LogonSettings) (err error)
 
-// todo
+// IntLimits holds an inclusive [Min, Max] bound for an integer setting.
 type IntLimits struct {
 	Min int
 	Max int
 }
 
+// Handler is a handler.
 type Handler interface {
 	HandleIncoming(msgType string, handle simplefixgo.IncomingHandlerFunc) (id int64)
 	HandleOutgoing(msgType string, handle simplefixgo.OutgoingHandlerFunc) (id int64)
@@ -322,10 +326,12 @@ func (s *Session) setStorageCallbacks() {
 	})
 }
 
+// SetLogonRequest sets the session's outgoing logon request builder.
 func (s *Session) SetLogonRequest(logonRequest func(*Session) error) {
 	s.logonRequest = logonRequest
 }
 
+// Logout sends a logout request and stops the session.
 func (s *Session) Logout() error {
 	s.changeState(WaitingLogoutAnswer, true)
 
@@ -334,14 +340,17 @@ func (s *Session) Logout() error {
 	return nil
 }
 
+// OnChangeState registers a callback invoked on session state changes.
 func (s *Session) OnChangeState(event utils.Event, handle utils.EventHandlerFunc) {
 	s.eventHandler.Handle(event, handle)
 }
 
+// StartWaiting begins waiting for the session's initial state transition.
 func (s *Session) StartWaiting() {
 	s.changeState(WaitingLogon, true)
 }
 
+// LogonRequest returns the session's outgoing logon request.
 func (s *Session) LogonRequest() error {
 	s.changeState(WaitingLogonAnswer, true)
 	if s.logonRequest != nil {
@@ -358,6 +367,7 @@ func (s *Session) LogonRequest() error {
 	return nil
 }
 
+// HandlerError reports an error from the session's handler.
 func (s *Session) HandlerError(err error) {
 	if s.errorHandler != nil && err != nil {
 		s.errorHandler(err)
@@ -370,6 +380,7 @@ func (s *Session) OnError(handler func(error)) {
 	s.errorHandler = handler
 }
 
+// Run starts session's processing loop.
 func (s *Session) Run() (err error) {
 	s.changeState(WaitingLogon, true)
 	s.OnChangeState(utils.EventDisconnect, func() bool {
@@ -622,6 +633,7 @@ func (s *Session) start() error {
 	return nil
 }
 
+// RejectMessage sends a Reject for the given message.
 func (s *Session) RejectMessage(msg []byte) {
 	reject := s.MakeReject(s.SessionErrorCodes.Other, 0, 0)
 
@@ -645,6 +657,7 @@ func (s *Session) RejectMessage(msg []byte) {
 	s.sendWithErrorCheck(reject)
 }
 
+// CurrentTime returns the current time used by the session.
 func (s *Session) CurrentTime() time.Time {
 	return time.Now().In(s.timeLocation)
 }
@@ -679,6 +692,7 @@ func (s *Session) send(msg messages.Message) error {
 	return s.Router.Send(msg)
 }
 
+// SendBuffered sends msg using a buffered encoder.
 func (s *Session) SendBuffered(msg messages.Message) error {
 	return s.sendBuffered(msg)
 }
@@ -708,14 +722,17 @@ func (s *Session) sendWithErrorCheck(msg messages.Message) {
 	s.HandlerError(s.send(msg))
 }
 
+// IsLogged reports whether the session has completed logon.
 func (s *Session) IsLogged() bool {
 	return s.State() == SuccessfulLogged
 }
 
+// Context returns session's context.
 func (s *Session) Context() context.Context {
 	return s.ctx
 }
 
+// MakeReject builds a Reject message for the given cause.
 func (s *Session) MakeReject(reasonCode, tag, seqNum int) messages.RejectBuilder {
 	msg := s.MessageBuilders.RejectBuilder.Build().
 		SetFieldRefSeqNum(seqNum).
@@ -734,6 +751,7 @@ func (s *Session) SetUnmarshaller(unmarshaller Unmarshaller) {
 	s.unmarshaller = unmarshaller
 }
 
+// Stop stops session.
 func (s *Session) Stop() (err error) {
 	defer func() {
 		s.eventHandler.Clean()
@@ -758,6 +776,7 @@ func (s *Session) Stop() (err error) {
 	return nil
 }
 
+// State returns session's current state.
 func (s *Session) State() LogonState {
 	return LogonState(s.state.Load())
 }

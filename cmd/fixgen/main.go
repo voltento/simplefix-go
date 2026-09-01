@@ -1,3 +1,4 @@
+// Package main implements the fixgen CLI code generator.
 package main
 
 import (
@@ -31,7 +32,7 @@ func main() {
 
 	g := generator.NewGenerator(doc, config, filepath.Base(*outputDir))
 
-	err = os.MkdirAll(*outputDir, os.ModePerm)
+	err = os.MkdirAll(*outputDir, 0o750)
 	if err != nil {
 		panic(err)
 	}

@@ -1,3 +1,4 @@
+// Package memory provides an in-memory CounterStorage implementation.
 package memory
 
 import (
@@ -23,6 +24,7 @@ func NewStorage() *Storage {
 	}
 }
 
+// GetNextSeqNum returns and increments the next sequence number for id.
 func (s *Storage) GetNextSeqNum(storageID fix.StorageID) (int, error) {
 	if storageID.Side == fix.Incoming {
 		return int(atomic.AddInt64(&s.counterIncoming, 1)), nil
@@ -31,6 +33,7 @@ func (s *Storage) GetNextSeqNum(storageID fix.StorageID) (int, error) {
 	}
 }
 
+// GetCurrSeqNum returns the current sequence number for id.
 func (s *Storage) GetCurrSeqNum(storageID fix.StorageID) (int, error) {
 	if storageID.Side == fix.Incoming {
 		return int(s.counterIncoming), nil
@@ -39,6 +42,7 @@ func (s *Storage) GetCurrSeqNum(storageID fix.StorageID) (int, error) {
 	}
 }
 
+// ResetSeqNum resets the sequence number for id to zero.
 func (s *Storage) ResetSeqNum(storageID fix.StorageID) error {
 	if storageID.Side == fix.Incoming {
 		s.counterIncoming = 0
@@ -48,6 +52,7 @@ func (s *Storage) ResetSeqNum(storageID fix.StorageID) error {
 	return nil
 }
 
+// SetSeqNum sets the sequence number for id.
 func (s *Storage) SetSeqNum(storageID fix.StorageID, seqNum int) error {
 	if storageID.Side == fix.Incoming {
 		s.counterIncoming = int64(seqNum)

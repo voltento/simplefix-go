@@ -1,3 +1,4 @@
+// Package fix implements FIX message primitives: messages, key-values, groups, components, and field value types.
 package fix
 
 import (
@@ -65,6 +66,8 @@ func (c *Component) ToBytes() []byte {
 
 	return joinBody(msg...)
 }
+
+// IsEmpty reports whether component is empty.
 func (c *Component) IsEmpty() bool {
 	for _, item := range c.items {
 		if !item.IsEmpty() {
@@ -73,6 +76,8 @@ func (c *Component) IsEmpty() bool {
 	}
 	return true
 }
+
+// WriteBytes writes component's bytes into buf.
 func (c *Component) WriteBytes(writer *bytes.Buffer) bool {
 	addDelimeter := false
 	written := false

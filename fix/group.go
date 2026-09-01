@@ -63,10 +63,12 @@ func (g *Group) ToBytes() []byte {
 	return joinBody(msg...)
 }
 
+// IsEmpty reports whether group is empty.
 func (g *Group) IsEmpty() bool {
 	return len(g.items) == 0
 }
 
+// WriteBytes writes group's bytes into buf.
 func (g *Group) WriteBytes(writer *bytes.Buffer) bool {
 
 	if len(g.items) == 0 {

@@ -1,3 +1,4 @@
+// Package generator generates Go types and builders from FIX XML schemas.
 package generator
 
 import (
@@ -12,6 +13,7 @@ import (
 	"text/template"
 )
 
+// Schema item kinds.
 const (
 	GroupItem     = "group"
 	FieldItem     = "field"
@@ -60,7 +62,7 @@ func (g *Generator) checkName(name string) (err error) {
 }
 
 func (g *Generator) write(path, data string) (err error) {
-	output, err := os.Create(path)
+	output, err := os.Create(path) //nolint:gosec // path comes from the fixgen CLI operator, not untrusted input
 	if err != nil {
 		return err
 	}
@@ -284,7 +286,7 @@ func (g *Generator) makeArg(member *ComponentMember) string {
 		tmp.Type = g.fixTypeToGo(g.makeType(member.Name))
 	default:
 		panic(fmt.Errorf(
-			"Unexpected item time. Expected value: %s, %s, %s; Specified value: '%s'",
+			"unexpected item time. Expected value: %s, %s, %s; specified value: '%s'",
 			ComponentItem, GroupItem, FieldItem, member.XMLName.Local,
 		))
 	}
@@ -614,7 +616,7 @@ func (g *Generator) makeSetterGetterField(parentName string, member *ComponentMe
 		tp = g.fixTypeToGo(g.makeType(member.Name))
 	default:
 		panic(fmt.Errorf(
-			"Unexpected item time. Expected value: %s, %s, %s; specified value: '%s'",
+			"unexpected item time. Expected value: %s, %s, %s; specified value: '%s'",
 			ComponentItem, GroupItem, FieldItem, member.XMLName.Local,
 		))
 	}
@@ -640,7 +642,7 @@ func (g *Generator) makeSetterCall(member *ComponentMember) string {
 		name = member.Name
 	default:
 		panic(fmt.Errorf(
-			"Unexpected item time. Expected value: %s, %s, %s; specified value: '%s'",
+			"unexpected item time. Expected value: %s, %s, %s; specified value: '%s'",
 			ComponentItem, GroupItem, FieldItem, member.XMLName.Local,
 		))
 	}
@@ -702,7 +704,7 @@ func (g *Generator) makeCallConstructor(member *ComponentMember) string {
 	}
 
 	panic(fmt.Errorf(
-		"Unexpected item time. Expected value: %s, %s, %s; specified value: '%s'",
+		"unexpected item time. Expected value: %s, %s, %s; specified value: '%s'",
 		ComponentItem, GroupItem, FieldItem, member.XMLName.Local,
 	))
 }

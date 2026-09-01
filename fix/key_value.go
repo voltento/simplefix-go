@@ -50,18 +50,24 @@ func (kv *KeyValue) ToBytes() []byte {
 		[]byte(kv.Key), v,
 	}, []byte{61})
 }
+
+// IsNull reports whether key value is null.
 func (kv *KeyValue) IsNull() bool {
 	if kv == nil || kv.Value == nil || kv.Value.IsNull() {
 		return false
 	}
 	return kv.Value.IsNull()
 }
+
+// IsEmpty reports whether key value is empty.
 func (kv *KeyValue) IsEmpty() bool {
 	if kv.IsNull() {
 		return true
 	}
 	return kv.Value.IsEmpty()
 }
+
+// WriteBytes writes key value's bytes into buf.
 func (kv *KeyValue) WriteBytes(writer *bytes.Buffer) bool {
 	if kv == nil || kv.Value == nil || kv.Value.IsNull() {
 		return false
