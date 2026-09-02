@@ -1,5 +1,6 @@
 package messages
 
+// ResendRequest is a resend request.
 type ResendRequest interface {
 	New() ResendRequestBuilder
 	Build() ResendRequestBuilder

@@ -6,12 +6,13 @@ import (
 	"fmt"
 	"sync"
 
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix/buffer"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/session/messages"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/utils"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix/buffer"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/session/messages"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/utils"
 )
 
+// AllMsgTypes is a all msg types.
 const AllMsgTypes = "ALL"
 
 // SendingMessage provides a basic method for sending messages.
@@ -150,6 +151,8 @@ func (h *DefaultHandler) Send(message SendingMessage) error {
 
 	return h.send(message)
 }
+
+// SendBuffered sends msg using a buffered encoder.
 func (h *DefaultHandler) SendBuffered(message SendingMessage) error {
 	h.mu.Lock()
 	defer h.mu.Unlock()
@@ -287,6 +290,7 @@ func (h *DefaultHandler) processRemainingErrors() {
 	}()
 }
 
+// Context returns default handler's context.
 func (h *DefaultHandler) Context() context.Context {
 	return h.ctx
 }

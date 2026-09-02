@@ -2,7 +2,7 @@
 
 Pure Go implementation of the FIX (Financial Information eXchange) protocol. Provides building blocks for FIX clients (Initiators) and servers (Acceptors) with session management, message validation, custom FIX dialect support, and code generation from XML schemas.
 
-- **Module:** `gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go`
+- **Module:** `gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go`
 - **Go version:** 1.24 (go.mod minimum); CI tests with Go 1.24
 - **Default branch:** `master`
 - **Dependencies:** `golang.org/x/sync` only

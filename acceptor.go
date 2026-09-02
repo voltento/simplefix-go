@@ -1,3 +1,4 @@
+// Package simplefixgo implements a pure Go FIX protocol client/server toolkit.
 package simplefixgo
 
 import (
@@ -9,7 +10,7 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/utils"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/utils"
 )
 
 // Sender is an interface implemented by any structure that can issue a SendingMessage.

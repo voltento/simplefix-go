@@ -1,5 +1,6 @@
 package messages
 
+// OrderCancelReject is a order cancel reject.
 type OrderCancelReject interface {
 	New() OrderCancelRejectBuilder
 	Build() OrderCancelRejectBuilder

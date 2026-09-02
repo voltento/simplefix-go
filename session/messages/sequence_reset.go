@@ -1,5 +1,6 @@
 package messages
 
+// SequenceReset is a sequence reset.
 type SequenceReset interface {
 	New() SequenceResetBuilder
 	Build() SequenceResetBuilder

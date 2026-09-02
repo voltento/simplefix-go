@@ -1,5 +1,6 @@
 package messages
 
+// NewOrderSingle is a new order single.
 type NewOrderSingle interface {
 	New() NewOrderSingleBuilder
 	Build() NewOrderSingleBuilder

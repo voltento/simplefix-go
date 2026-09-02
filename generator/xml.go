@@ -40,6 +40,7 @@ type Value struct {
 	Description string `xml:"description,attr"`
 }
 
+// ComponentMember is a component member.
 type ComponentMember struct {
 	XMLName  xml.Name
 	Name     string `xml:"name,attr"`
@@ -48,10 +49,12 @@ type ComponentMember struct {
 	Members []*ComponentMember `xml:",any"`
 }
 
+// Config is a config.
 type Config struct {
 	Types []*Type `xml:"types>type"`
 }
 
+// Type is a type.
 type Type struct {
 	XMLName xml.Name
 

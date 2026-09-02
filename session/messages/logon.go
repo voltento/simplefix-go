@@ -1,5 +1,6 @@
 package messages
 
+// Logon is a logon.
 type Logon interface {
 	New() LogonBuilder
 	Build() LogonBuilder

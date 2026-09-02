@@ -1,5 +1,6 @@
 package messages
 
+// Logout is a logout.
 type Logout interface {
 	New() LogoutBuilder
 	Build() LogoutBuilder

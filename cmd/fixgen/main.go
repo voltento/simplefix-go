@@ -1,3 +1,4 @@
+// Package main implements the fixgen CLI code generator.
 package main
 
 import (
@@ -6,8 +7,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/generator"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/utils"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/generator"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/utils"
 )
 
 func main() {
@@ -31,7 +32,7 @@ func main() {
 
 	g := generator.NewGenerator(doc, config, filepath.Base(*outputDir))
 
-	err = os.MkdirAll(*outputDir, os.ModePerm)
+	err = os.MkdirAll(*outputDir, 0o750)
 	if err != nil {
 		panic(err)
 	}

@@ -1,5 +1,6 @@
 package messages
 
+// Heartbeat is a heartbeat.
 type Heartbeat interface {
 	New() HeartbeatBuilder
 	Build() HeartbeatBuilder

@@ -29,6 +29,7 @@ func (v Items) ToBytes() []byte {
 	return joinBody(msg...)
 }
 
+// IsEmpty reports whether items is empty.
 func (v Items) IsEmpty() bool {
 	for _, item := range v {
 		if !item.IsEmpty() {
@@ -38,6 +39,7 @@ func (v Items) IsEmpty() bool {
 	return true
 }
 
+// WriteBytes writes items's bytes into buf.
 func (v Items) WriteBytes(writer *bytes.Buffer) bool {
 	addDelimeter := false
 	written := false

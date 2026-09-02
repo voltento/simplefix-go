@@ -1,21 +1,22 @@
+// Package main demonstrates running a FIX Initiator.
 package main
 
 import (
 	"bytes"
 	"context"
 	"fmt"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/storages/memory"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/storages/memory"
 	"net"
 	"strconv"
 	"time"
 
-	simplefixgo "gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix/encoding"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/session"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/session/messages"
-	fixgen "gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/tests/fix44"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/utils"
+	simplefixgo "gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix/encoding"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/session"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/session/messages"
+	fixgen "gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/tests/fix44"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/utils"
 )
 
 func mustConvToInt(s string) int {

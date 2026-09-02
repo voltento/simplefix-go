@@ -1,14 +1,16 @@
-package utils
+// Package utils provides event, timer, and pool helpers shared across the library.
+package utils //nolint:revive // meaningless package name is a known concession, not going to be renamed
 
 import "sync"
 
+// Event is a event.
 type Event int
 
 const (
 	// EventDisconnect occurs when the connection is down.
 	EventDisconnect Event = iota
 
-	// EventDisconnect occurs when the connection is up.
+	// EventConnect occurs when the connection is up.
 	EventConnect
 
 	// EventStopped occurs when the handler is stopped.
@@ -68,6 +70,7 @@ func (evp *EventHandlerPool) Trigger(e Event) {
 	}
 }
 
+// Clean clears event handler pool's state.
 func (evp *EventHandlerPool) Clean() {
 	evp.mu.Lock()
 	defer evp.mu.Unlock()

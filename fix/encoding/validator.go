@@ -2,11 +2,13 @@ package encoding
 
 import (
 	"fmt"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/session/messages"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/session/messages"
 )
 
+// DefaultValidator is a default validator.
 type DefaultValidator struct{}
 
+// Do runs the validator against msg.
 func (v DefaultValidator) Do(msg messages.Builder) error {
 	return v.checkRequiredFields(msg)
 }

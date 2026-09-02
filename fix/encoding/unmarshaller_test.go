@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"testing"
 
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix"
 )
 
 const visibleDelimiter = "|"

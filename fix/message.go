@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix/buffer"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix/buffer"
 )
 
 // Message is a structure providing functionality to FIX messages.
@@ -75,6 +75,7 @@ func (msg *Message) BeginString() *KeyValue {
 	return msg.beginString
 }
 
+// BeginStringTag returns the message's BeginString (tag 8) key-value.
 func (msg *Message) BeginStringTag() string {
 	return msg.beginString.Key
 }
@@ -84,6 +85,7 @@ func (msg *Message) BodyLength() int {
 	return msg.bodyLength.Value.Value().(int)
 }
 
+// BodyLengthTag returns the message's BodyLength (tag 9) key-value.
 func (msg *Message) BodyLengthTag() string {
 	return msg.bodyLength.Key
 }
@@ -98,10 +100,12 @@ func (msg *Message) CheckSum() string {
 	return msg.checkSum.Value.String()
 }
 
+// CheckSumTag returns the message's CheckSum (tag 10) key-value.
 func (msg *Message) CheckSumTag() string {
 	return msg.checkSum.Key
 }
 
+// CalcBodyLength computes the message's body length.
 func (msg *Message) CalcBodyLength() int {
 	bh := msg.header.ToBytes()
 	bb := msg.body.ToBytes()
@@ -124,6 +128,7 @@ func (msg *Message) CalcBodyLength() int {
 	return length
 }
 
+// BytesWithoutChecksum returns the message's bytes excluding the checksum trailer.
 func (msg *Message) BytesWithoutChecksum() []byte {
 	bh := msg.header.ToBytes()
 	bb := msg.body.ToBytes()
@@ -145,6 +150,7 @@ func (msg *Message) BytesWithoutChecksum() []byte {
 	return bm
 }
 
+// WriteBytesWithoutChecksum writes the message's bytes excluding the checksum trailer.
 func (msg *Message) WriteBytesWithoutChecksum(buffers *buffer.MessageByteBuffers) {
 	messageBuffer := buffers.GetMessageBuffer()
 	bodyBuffer := buffers.GetBodyBuffer()
@@ -226,7 +232,7 @@ func (msg *Message) prepareBuffered(buffers *buffer.MessageByteBuffers) error {
 	return nil
 }
 
-// Prepared returns a byte representation of a specified message.
+// ToBytes returns the message's prepared byte representation.
 func (msg *Message) ToBytes() ([]byte, error) {
 
 	if err := msg.Prepare(); err != nil {
@@ -236,6 +242,7 @@ func (msg *Message) ToBytes() ([]byte, error) {
 	return msg.prepared, nil
 }
 
+// ToBytesBuffered writes message's bytes into buf and returns the buffered result.
 func (msg *Message) ToBytesBuffered(buffers *buffer.MessageByteBuffers) ([]byte, error) {
 
 	if err := msg.prepareBuffered(buffers); err != nil {

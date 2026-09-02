@@ -1,5 +1,6 @@
 package messages
 
+// ExecutionReport is a execution report.
 type ExecutionReport interface {
 	New() ExecutionReportBuilder
 	Build() ExecutionReportBuilder

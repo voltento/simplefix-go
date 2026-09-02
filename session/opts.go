@@ -2,9 +2,10 @@ package session
 
 import (
 	"fmt"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/session/messages"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/session/messages"
 )
 
+// MessageBuilders is a message builders.
 type MessageBuilders struct {
 	HeaderBuilder             messages.HeaderBuilder
 	TrailerBuilder            messages.TrailerBuilder
@@ -31,6 +32,7 @@ type Opts struct {
 	SessionErrorCodes       *messages.SessionErrorCodes
 }
 
+// Side is a side.
 type Side int64
 
 const (

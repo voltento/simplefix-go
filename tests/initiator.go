@@ -5,17 +5,18 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/storages/memory"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/storages/memory"
 	"net"
 	"testing"
 	"time"
 
-	simplefixgo "gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/fix"
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/session"
-	fixgen "gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/tests/fix44"
+	simplefixgo "gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/session"
+	fixgen "gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/tests/fix44"
 )
 
+// RunNewInitiator ...
 func RunNewInitiator(addr string, t *testing.T, settings *session.LogonSettings, logon bool) (s *session.Session, handler *simplefixgo.DefaultHandler) {
 	conn, err := net.Dial("tcp", addr)
 	if err != nil {
@@ -44,9 +45,9 @@ func RunNewInitiator(addr string, t *testing.T, settings *session.LogonSettings,
 		return true
 	})
 	handler.HandleOutgoing(simplefixgo.AllMsgTypes, func(msg simplefixgo.SendingMessage) bool {
-		data, err := msg.ToBytes()
-		if err != nil {
-			panic(err)
+		data, mErr := msg.ToBytes()
+		if mErr != nil {
+			panic(mErr)
 		}
 		fmt.Println("outgoing:", string(bytes.ReplaceAll(data, fix.Delimiter, []byte("|"))))
 		return true
@@ -61,9 +62,9 @@ func RunNewInitiator(addr string, t *testing.T, settings *session.LogonSettings,
 	go func() {
 		time.Sleep(time.Second * 10)
 		fmt.Println("resending the request after 10 seconds")
-		err := s.Send(fixgen.ResendRequest{}.New().SetFieldBeginSeqNo(2).SetFieldEndSeqNo(3))
-		if err != nil {
-			panic(err)
+		sErr := s.Send(fixgen.ResendRequest{}.New().SetFieldBeginSeqNo(2).SetFieldEndSeqNo(3))
+		if sErr != nil {
+			panic(sErr)
 		}
 	}()
 

@@ -1,4 +1,4 @@
-package utils
+package utils //nolint:revive // meaningless package name is a known concession, not going to be renamed
 
 import (
 	"encoding/xml"
@@ -11,7 +11,7 @@ import (
 func ParseXML(path string, data interface{}) error {
 	var err error
 
-	source, err := os.Open(path)
+	source, err := os.Open(path) //nolint:gosec // path comes from the fixgen CLI operator, not untrusted input
 	if err != nil {
 		return fmt.Errorf("could not open the file: %s", path)
 	}

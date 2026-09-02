@@ -1,9 +1,10 @@
 package session
 
 import (
-	"gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/session/messages"
+	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/session/messages"
 )
 
+// Unmarshaller is a unmarshaller.
 type Unmarshaller interface {
 	Unmarshal(msg messages.Builder, d []byte) error
 }
