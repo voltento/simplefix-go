@@ -1,4 +1,4 @@
-package utils
+package utils //nolint:revive // meaningless package name is a known concession, not going to be renamed
 
 import (
 	"context"

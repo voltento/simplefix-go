@@ -38,9 +38,6 @@ linters:
       - linters:
           - revive
         text: "unused-parameter"
-      - linters:
-          - revive
-        text: "var-naming: avoid meaningless package names"
 
 formatters:
   enable:

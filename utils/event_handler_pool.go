@@ -1,5 +1,5 @@
 // Package utils provides event, timer, and pool helpers shared across the library.
-package utils
+package utils //nolint:revive // meaningless package name is a known concession, not going to be renamed
 
 import "sync"
 
