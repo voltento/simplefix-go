@@ -1,3 +1,11 @@
+## [1.18.2](https://gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/compare/v1.18.1...v1.18.2) (2026-09-02)
+
+
+### Bug Fixes
+
+* **B2CT-22314:** rename module to b2connect/b2connect group path ([a829390](https://gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/commit/a829390a0e1952932511f926f3d6f1edd95999da))
+* **B2CT-22314:** scope meaningless-package-name lint suppression to utils package (Andrei's review) ([52e7938](https://gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/commit/52e7938c3c8554e95b9a67e9e2ca588c4612e066))
+
 ## [1.18.1](https://gitlab.b2broker.tech/highload/b2connect/libs/go/simplefix-go/compare/v1.18.0...v1.18.1) (2026-06-08)
 
 
