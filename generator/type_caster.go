@@ -32,7 +32,7 @@ func (g *Generator) initTypes() {
 		}
 
 		if _, ok := allowedTypes[tp.CastType]; !ok {
-			var types []string
+			types := make([]string, 0, len(allowedTypes))
 			for tp := range allowedTypes {
 				types = append(types, tp)
 			}

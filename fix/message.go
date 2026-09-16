@@ -42,12 +42,13 @@ func NewMessage(beginStringTag, bodyLengthTag, checkSumTag, msgTypeTag, beginStr
 
 // Items returns all fields as Items slice
 func (msg *Message) Items() Items {
-	items := Items{
+	items := make(Items, 0, 4+len(msg.body)+2)
+	items = append(items,
 		msg.beginString,
 		msg.bodyLength,
 		msg.msgType,
 		msg.header,
-	}
+	)
 
 	items = append(items, msg.body...)
 	items = append(items, msg.trailer, msg.checkSum)
