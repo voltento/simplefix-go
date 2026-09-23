@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"sync"
+	"time"
 
 	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix"
 	"gitlab.b2broker.tech/b2connect/b2connect/libs/go/simplefix-go/fix/buffer"
@@ -37,6 +38,11 @@ type DefaultHandler struct {
 	messageConverter *fix.MessageByteConverter
 
 	msgTypeTag string
+
+	// sendDeadline bounds how long sendRaw waits for space in the outbound
+	// channel. Zero keeps the historical behaviour: wait until the handler
+	// context is cancelled. Set per acceptor so trading and quoting can differ.
+	sendDeadline time.Duration
 
 	ctx    context.Context
 	cancel context.CancelFunc
@@ -84,12 +90,31 @@ func NewInitiatorHandler(ctx context.Context, msgTypeTag string, bufferSize int)
 }
 
 func (h *DefaultHandler) sendRaw(data []byte) error {
+	var timeout <-chan time.Time
+	if h.sendDeadline > 0 {
+		timer := time.NewTimer(h.sendDeadline)
+		defer timer.Stop()
+		timeout = timer.C
+	}
+
 	select {
 	case h.out <- data:
 	case <-h.ctx.Done():
 		return fmt.Errorf("the handler is stopped")
+	case <-timeout:
+		// Same escape a fully stalled socket already uses: cancel the handler
+		// context so every parked sender unwinds and the session drops.
+		h.cancel()
+		return fmt.Errorf("%w after %s", ErrSendTimeout, h.sendDeadline)
 	}
 	return nil
+}
+
+// SetSendDeadline bounds how long a send waits for space in the outbound
+// channel before the handler context is cancelled. Zero disables the bound.
+// Call it before the handler starts serving; it is not safe to change later.
+func (h *DefaultHandler) SetSendDeadline(d time.Duration) {
+	h.sendDeadline = d
 }
 
 func (h *DefaultHandler) send(msg SendingMessage) error {
