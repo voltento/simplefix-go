@@ -102,8 +102,10 @@ func (h *DefaultHandler) sendRaw(data []byte) error {
 	case <-h.ctx.Done():
 		return fmt.Errorf("the handler is stopped")
 	case <-timeout:
-		// Same escape a fully stalled socket already uses: cancel the handler
-		// context so every parked sender unwinds and the session drops.
+		// Cancelling the handler context is what tears the connection down:
+		// Run returns, and the acceptor's errgroup defer closes the socket.
+		// Run fires EventDisconnect on this path so the session state machine
+		// moves to Disconnect instead of reporting its last live state.
 		h.cancel()
 		return fmt.Errorf("%w after %s", ErrSendTimeout, h.sendDeadline)
 	}
@@ -275,6 +277,11 @@ func (h *DefaultHandler) Run() (err error) {
 		case <-h.ctx.Done():
 			h.processRemainingIncoming()
 
+			// The context is cancelled both by an explicit Stop and by a dead
+			// connection (send deadline, read error via the acceptor). Either
+			// way the counterparty is gone, so this is a disconnect — not just
+			// a stop — for the session state machine.
+			h.eventHandlers.Trigger(utils.EventDisconnect)
 			h.eventHandlers.Trigger(utils.EventStopped)
 
 			return

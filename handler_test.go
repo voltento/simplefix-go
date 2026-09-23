@@ -39,6 +39,33 @@ func TestSendRawTimesOutWhenOutboundStaysFull(t *testing.T) {
 	}
 }
 
+// The timeout must tear the session down the same way every other disconnect
+// does: Run fires EventDisconnect, which is what moves the session state
+// machine to Disconnect. EventStopped alone leaves it reporting logged-on.
+func TestSendTimeoutFiresDisconnect(t *testing.T) {
+	h := NewAcceptorHandler(context.Background(), "35", 0)
+	h.SetSendDeadline(20 * time.Millisecond)
+
+	disconnected := make(chan struct{})
+	h.OnDisconnect(func() bool {
+		close(disconnected)
+		return true
+	})
+
+	go func() { _ = h.Run() }()
+	defer h.CloseErrorChan()
+
+	if err := h.SendRaw([]byte("never drained")); !errors.Is(err, ErrSendTimeout) {
+		t.Fatalf("sendRaw error = %v, want %v", err, ErrSendTimeout)
+	}
+
+	select {
+	case <-disconnected:
+	case <-time.After(time.Second):
+		t.Fatal("send timeout did not fire EventDisconnect")
+	}
+}
+
 func TestSendRawHonoursZeroDeadline(t *testing.T) {
 	h := NewAcceptorHandler(context.Background(), "35", 0)
 
