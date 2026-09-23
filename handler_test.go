@@ -35,7 +35,7 @@ func TestSendRawTimesOutWhenOutboundStaysFull(t *testing.T) {
 	select {
 	case <-h.Context().Done():
 	case <-time.After(time.Second):
-		t.Fatal("handler context was not cancelled on send timeout")
+		t.Fatal("handler context was not canceled on send timeout")
 	}
 }
 

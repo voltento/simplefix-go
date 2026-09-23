@@ -40,8 +40,8 @@ type DefaultHandler struct {
 	msgTypeTag string
 
 	// sendDeadline bounds how long sendRaw waits for space in the outbound
-	// channel. Zero keeps the historical behaviour: wait until the handler
-	// context is cancelled. Set per acceptor so trading and quoting can differ.
+	// channel. Zero keeps the historical behavior: wait until the handler
+	// context is canceled. Set per acceptor so trading and quoting can differ.
 	sendDeadline time.Duration
 
 	ctx    context.Context
@@ -111,7 +111,7 @@ func (h *DefaultHandler) sendRaw(data []byte) error {
 }
 
 // SetSendDeadline bounds how long a send waits for space in the outbound
-// channel before the handler context is cancelled. Zero disables the bound.
+// channel before the handler context is canceled. Zero disables the bound.
 // Call it before the handler starts serving; it is not safe to change later.
 func (h *DefaultHandler) SetSendDeadline(d time.Duration) {
 	h.sendDeadline = d
